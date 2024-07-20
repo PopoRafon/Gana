@@ -1,3 +1,49 @@
 {
-  "extends": "next/core-web-vitals"
+    "extends": [
+        "next/core-web-vitals",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": ["variable", "property"],
+                "format": ["camelCase", "UPPER_CASE", "PascalCase"]
+            },
+            {
+                "selector": ["function", "parameter", "method"],
+                "format": ["camelCase", "PascalCase"]
+            },
+            {
+                "selector": ["typeLike", "enumMember"],
+                "format": ["PascalCase"]
+            }
+        ],
+        "@typescript-eslint/array-type": [
+            "error",
+            {
+                "default": "array-simple"
+            }
+        ],
+        "@typescript-eslint/consistent-type-imports": "error",
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single",
+            { "allowTemplateLiterals": true }
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "indent": [
+            "error",
+            4
+        ],
+        "no-new-object": "error",
+        "object-shorthand": ["error", "always"]
+    }
 }
