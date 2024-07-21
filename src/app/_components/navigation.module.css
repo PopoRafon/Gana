@@ -1,0 +1,32 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.08);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px 1rem;
+}
+
+.logo {
+    display: flex;
+}
+
+.links-container {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.link {
+    padding: 0.5rem;
+    box-sizing: border-box;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: 0.3s;
+    position: relative;
+}
+
+.link:hover {
+    background-color: rgb(0, 0, 0, 0.1);
+}
