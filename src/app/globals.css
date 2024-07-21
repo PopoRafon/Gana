@@ -1,5 +1,12 @@
 body {
     margin: 0px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    z-index: 999;
 }
 
 a {
@@ -8,4 +15,16 @@ a {
 
 a:visited {
     color: inherit;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.page-dark-bg {
+    background-color: #FAFAFA;
 }
