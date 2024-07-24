@@ -21,6 +21,7 @@ export default function TextInput({ label, name, value, handleChange, type='text
                 name={name}
                 value={value}
                 onChange={handleChange}
+                autoComplete="off"
             />
         </label>
     );

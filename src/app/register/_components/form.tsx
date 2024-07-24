@@ -3,6 +3,8 @@
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import TextInput from '@/components/form/textInput';
+import PasswordInput from '@/components/form/passwordInput';
+import Submit from '@/components/form/submit';
 
 type RegisterFormData = {
     email: string;
@@ -41,6 +43,21 @@ export default function Form() {
                 name="username"
                 value={formData.username}
                 handleChange={handleChange}
+            />
+            <PasswordInput
+                label="Password"
+                name="password1"
+                value={formData.password1}
+                handleChange={handleChange}
+            />
+            <PasswordInput
+                label="Confirm Password"
+                name="password2"
+                value={formData.password2}
+                handleChange={handleChange}
+            />
+            <Submit
+                value="Submit"
             />
         </form>
     );
