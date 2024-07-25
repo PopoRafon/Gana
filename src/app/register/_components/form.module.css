@@ -1,0 +1,14 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.agreement {
+    margin: 0px;
+    font-size: small;
+}
+
+.agreement a {
+    text-decoration: underline;
+}

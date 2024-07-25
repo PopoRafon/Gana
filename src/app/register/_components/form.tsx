@@ -1,10 +1,11 @@
 'use client';
 
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
 import { useState } from 'react';
-import TextInput from '@/components/form/textInput';
-import PasswordInput from '@/components/form/passwordInput';
-import Submit from '@/components/form/submit';
+import styles from './form.module.css';
+import Email from './email';
+import Username from './username';
+import Password from './password';
 
 type RegisterFormData = {
     email: string;
@@ -16,9 +17,12 @@ type RegisterFormData = {
 
 export default function Form() {
     const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: '', password1: '', password2: '' });
+    const [showEmail, setShowEmail] = useState<boolean>(true);
+    const [showUsername, setShowUsername] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
-        const { value, name } = event.target;
+        const { name, value } = event.target;
 
         setFormData({
             ...formData,
@@ -26,39 +30,57 @@ export default function Form() {
         });
     }
 
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        if (showEmail) {
+            // Validate Email
+            setShowEmail(false);
+            setShowUsername(true);
+            return;
+        }
+
+        if (showUsername) {
+            // Validate Username
+            setShowUsername(false);
+            setShowPassword(true);
+            return;
+        }
+
+        if (showPassword) {
+            // Validate Password
+            return;
+        }
+
+        // Send Request
+    }
+
     return (
         <form
             aria-label="Register form"
+            className={styles.form}
+            onSubmit={handleSubmit}
             noValidate
         >
-            <TextInput
-                label="Email Address"
-                name="email"
-                value={formData.email}
-                handleChange={handleChange}
-                type="email"
-            />
-            <TextInput
-                label="Username"
-                name="username"
-                value={formData.username}
-                handleChange={handleChange}
-            />
-            <PasswordInput
-                label="Password"
-                name="password1"
-                value={formData.password1}
-                handleChange={handleChange}
-            />
-            <PasswordInput
-                label="Confirm Password"
-                name="password2"
-                value={formData.password2}
-                handleChange={handleChange}
-            />
-            <Submit
-                value="Submit"
-            />
+            {showEmail && (
+                <Email
+                    email={formData.email}
+                    handleChange={handleChange}
+                />
+            )}
+            {showUsername && (
+                <Username
+                    username={formData.username}
+                    handleChange={handleChange}
+                />
+            )}
+            {showPassword && (
+                <Password
+                    password1={formData.password1}
+                    password2={formData.password2}
+                    handleChange={handleChange}
+                />
+            )}
         </form>
     );
 }
