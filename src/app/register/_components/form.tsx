@@ -1,6 +1,6 @@
 'use client';
 
-import type { ChangeEvent, FormEvent } from 'react';
+import type { FormEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
 import styles from './form.module.css';
 import Email from './email';
@@ -17,9 +17,7 @@ type RegisterFormData = {
 
 export default function Form() {
     const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: '', password1: '', password2: '' });
-    const [showEmail, setShowEmail] = useState<boolean>(true);
-    const [showUsername, setShowUsername] = useState<boolean>(false);
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showField, setShowField] = useState<'email' | 'username' | 'password'>('email');
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -33,26 +31,17 @@ export default function Form() {
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        if (showEmail) {
-            // Validate Email
-            setShowEmail(false);
-            setShowUsername(true);
+        if (showField === 'email') {
+            setShowField('username');
             return;
         }
 
-        if (showUsername) {
-            // Validate Username
-            setShowUsername(false);
-            setShowPassword(true);
+        if (showField === 'username') {
+            setShowField('password');
             return;
         }
 
-        if (showPassword) {
-            // Validate Password
-            return;
-        }
-
-        // Send Request
+        // TODO: Send request to backend with formData
     }
 
     return (
@@ -62,19 +51,19 @@ export default function Form() {
             onSubmit={handleSubmit}
             noValidate
         >
-            {showEmail && (
+            {showField === 'email' && (
                 <Email
                     email={formData.email}
                     handleChange={handleChange}
                 />
             )}
-            {showUsername && (
+            {showField === 'username' && (
                 <Username
                     username={formData.username}
                     handleChange={handleChange}
                 />
             )}
-            {showPassword && (
+            {showField === 'password' && (
                 <Password
                     password1={formData.password1}
                     password2={formData.password2}

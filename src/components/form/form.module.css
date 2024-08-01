@@ -57,3 +57,8 @@
 .submit:hover {
     background-color: rgb(76, 76, 248);
 }
+
+.submit:disabled {
+    cursor: auto;
+    background-color: rgb(156, 156, 156);
+}
