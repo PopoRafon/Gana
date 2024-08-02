@@ -28,7 +28,7 @@ export default function Form() {
         });
     }
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         if (showField === 'email') {
@@ -41,7 +41,19 @@ export default function Form() {
             return;
         }
 
-        // TODO: Send request to backend with formData
+        await fetch('/api/register', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'application/json' // eslint-disable-line @typescript-eslint/naming-convention
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    
+                }
+            });
     }
 
     return (
