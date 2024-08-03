@@ -16,7 +16,7 @@ type RegisterFormData = {
 }
 
 export default function Form() {
-    const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: '', password1: '', password2: '' });
+    const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: 'personal', password1: '', password2: '' });
     const [showField, setShowField] = useState<'email' | 'username' | 'password'>('email');
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
