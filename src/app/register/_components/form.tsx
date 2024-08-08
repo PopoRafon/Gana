@@ -2,6 +2,8 @@
 
 import type { FormEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/contexts/userContext';
 import styles from './form.module.css';
 import Email from './email';
 import Username from './username';
@@ -15,7 +17,22 @@ type RegisterFormData = {
     password2: string;
 }
 
+async function sendForm(formData: RegisterFormData): Promise<undefined | object> {
+    const response = await fetch('/api/register', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+            'Content-Type': 'application/json' // eslint-disable-line @typescript-eslint/naming-convention
+        }
+    });
+
+    if (!response.ok) return undefined;
+    return response.json();
+}
+
 export default function Form() {
+    const router = useRouter();
+    const { setUser } = useUserContext();
     const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: 'personal', password1: '', password2: '' });
     const [showField, setShowField] = useState<'email' | 'username' | 'password'>('email');
 
@@ -41,19 +58,17 @@ export default function Form() {
             return;
         }
 
-        await fetch('/api/register', {
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: {
-                'Content-Type': 'application/json' // eslint-disable-line @typescript-eslint/naming-convention
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    
-                }
+        const user = await sendForm(formData);
+
+        if (user) {
+            setUser({
+                isAuthenticated: true,
+                email: formData.email,
+                username: formData.username,
+                accountType: formData.accountType
             });
+            router.push('/');
+        }
     }
 
     return (
