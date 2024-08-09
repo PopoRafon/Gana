@@ -9,7 +9,7 @@ datasource db {
 
 enum AccountType {
     personal
-    business
+    company
 }
 
 model User {

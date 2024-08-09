@@ -30,7 +30,7 @@ export async function isRegistrationFormValid(formData: RegisterFormData): Promi
     }
 
     if (typeof accountType !== 'string' ||
-        (accountType !== 'business' && accountType !== 'personal')
+        (accountType !== 'company' && accountType !== 'personal')
     ) {
         return false;
     }

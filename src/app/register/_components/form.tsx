@@ -33,7 +33,7 @@ async function sendForm(formData: RegisterFormData): Promise<undefined | object>
 export default function Form() {
     const router = useRouter();
     const { setUser } = useUserContext();
-    const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: 'personal', password1: '', password2: '' });
+    const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: '', password1: '', password2: '' });
     const [showField, setShowField] = useState<'email' | 'username' | 'password'>('email');
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -87,6 +87,7 @@ export default function Form() {
             {showField === 'username' && (
                 <Username
                     username={formData.username}
+                    accountType={formData.accountType}
                     handleChange={handleChange}
                 />
             )}

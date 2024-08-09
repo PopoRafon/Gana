@@ -12,3 +12,10 @@
 .agreement a {
     text-decoration: underline;
 }
+
+.account-types-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #9a9a9a;
+}

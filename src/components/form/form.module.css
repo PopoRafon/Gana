@@ -1,8 +1,11 @@
 .label {
+    --border-color: rgb(128, 128, 255);
+    --border-color-transition: 0.15s;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
     font-size: medium;
+    position: relative;
 }
 
 .input {
@@ -12,11 +15,12 @@
     width: clamp(280px, 80vw, 400px);
     box-sizing: border-box;
     font-size: medium;
+    transition: var(--border-color-transition);
 }
 
 .input:focus {
     outline: 0px;
-    border-color: rgb(128, 128, 255);
+    border-color: var(--border-color);
 }
 
 .password {
@@ -61,4 +65,22 @@
 .submit:disabled {
     cursor: auto;
     background-color: rgb(156, 156, 156);
+}
+
+.label-name {
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    left: 0.75rem;
+    translate: 0 -50%;
+    top: 0px;
+    font-size: small;
+    padding: 0px 2px;
+    font-weight: 500;
+    color: #B0B0B0;
+    transition: var(--border-color-transition);
+}
+
+.label:focus-within .label-name {
+    color: var(--border-color);
 }

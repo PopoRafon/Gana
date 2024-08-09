@@ -17,7 +17,9 @@ export default function PasswordInput({ label, name, value, handleChange }: Pass
 
     return (
         <label className={styles.label}>
-            {label}
+            <div className={styles['label-name']}>
+                {label}
+            </div>
             <div style={{ position: 'relative' }}>
                 <input
                     className={`${styles.input} ${styles.password}`}

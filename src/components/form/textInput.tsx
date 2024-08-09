@@ -14,7 +14,9 @@ type TextInputProps = {
 export default function TextInput({ label, name, value, handleChange, type='text' }: TextInputProps) {
     return (
         <label className={styles.label}>
-            {label}
+            <div className={styles['label-name']}>
+                {label}
+            </div>
             <input
                 className={styles.input}
                 type={type}
