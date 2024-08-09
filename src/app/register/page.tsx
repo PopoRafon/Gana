@@ -2,13 +2,12 @@
 
 import { UserContextProvider } from '@/contexts/userContext';
 import Form from './_components/form';
-import styles from './register.module.css';
 
 export default function Register() {
     return (
         <main className="page-dark-bg">
-            <section className={styles['form-container']}>
-                <h2 className={styles.header}>Register your account</h2>
+            <section className="auth-form-container">
+                <h3 className="auth-form-header">Register your account</h3>
                 <UserContextProvider>
                     <Form />
                 </UserContextProvider>

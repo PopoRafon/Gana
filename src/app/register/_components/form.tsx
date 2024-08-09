@@ -4,7 +4,6 @@ import type { FormEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/userContext';
-import styles from './form.module.css';
 import Email from './email';
 import Username from './username';
 import Password from './password';
@@ -74,7 +73,7 @@ export default function Form() {
     return (
         <form
             aria-label="Register form"
-            className={styles.form}
+            className="auth-form"
             onSubmit={handleSubmit}
             noValidate
         >
