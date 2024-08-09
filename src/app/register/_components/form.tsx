@@ -16,19 +16,6 @@ type RegisterFormData = {
     password2: string;
 }
 
-async function sendForm(formData: RegisterFormData): Promise<undefined | object> {
-    const response = await fetch('/api/register', {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-            'Content-Type': 'application/json' // eslint-disable-line @typescript-eslint/naming-convention
-        }
-    });
-
-    if (!response.ok) return undefined;
-    return response.json();
-}
-
 export default function Form() {
     const router = useRouter();
     const { setUser } = useUserContext();
@@ -57,9 +44,15 @@ export default function Form() {
             return;
         }
 
-        const user = await sendForm(formData);
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'application/json' // eslint-disable-line @typescript-eslint/naming-convention
+            }
+        });
 
-        if (user) {
+        if (response.ok) {
             setUser({
                 isAuthenticated: true,
                 email: formData.email,

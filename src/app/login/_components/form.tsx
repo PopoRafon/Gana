@@ -1,7 +1,7 @@
 'use client';
 
 import type { ChangeEvent, FormEvent } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import TextInput from '@/components/form/textInput';
 import PasswordInput from '@/components/form/passwordInput';
@@ -14,8 +14,33 @@ type LoginFormData = {
 }
 
 export default function Form() {
-    const [error] = useState<boolean>(true);
+    const [error, setError] = useState<boolean>(true);
     const [formData, setFormData] = useState<LoginFormData>({ username: '', password: '' });
+
+    useEffect(() => {
+        setError(!isUsernameValid() || !isPasswordValid());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [formData]);
+
+    function isUsernameValid(): boolean {
+        if (formData.username.length < 8 || formData.username.length > 16) {
+            return false;
+        }
+
+        if (!formData.username.match(/^\w+$/)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function isPasswordValid(): boolean {
+        if (formData.password.length < 8) {
+            return false;
+        }
+
+        return true;
+    }
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
