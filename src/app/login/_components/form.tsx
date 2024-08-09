@@ -2,6 +2,7 @@
 
 import type { ChangeEvent, FormEvent } from 'react';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './form.module.css';
 import TextInput from '@/components/form/textInput';
 import PasswordInput from '@/components/form/passwordInput';
@@ -14,6 +15,7 @@ type LoginFormData = {
 }
 
 export default function Form() {
+    const router = useRouter();
     const [error, setError] = useState<boolean>(true);
     const [formData, setFormData] = useState<LoginFormData>({ username: '', password: '' });
 
@@ -51,8 +53,20 @@ export default function Form() {
         });
     }
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'application/json' // eslint-disable-line @typescript-eslint/naming-convention
+            }
+        });
+
+        if (response.ok) {
+            router.push('/');
+        }
     }
 
     return (
