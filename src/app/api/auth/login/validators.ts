@@ -1,3 +1,4 @@
+import Password from '@/utils/password';
 import prisma from '@/db/config';
 
 type LoginFormData = {
@@ -19,7 +20,7 @@ export async function isLoginFormValid(formData: LoginFormData): Promise<boolean
     }
 
     if (typeof password !== 'string' ||
-        password !== user.password
+        !await Password.verify(user.password, password)
     ) {
         return false;
     }

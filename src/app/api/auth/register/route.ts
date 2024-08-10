@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { createAccessToken, createRefreshToken } from '@/utils/tokens';
 import { isRegistrationFormValid } from './validators';
+import Password from '@/utils/password';
 import prisma from '@/db/config';
 
 export async function POST(request: Request) {
@@ -13,12 +14,13 @@ export async function POST(request: Request) {
         }, { status: 400 });
     }
 
+    const passwordHash = await Password.hash(formData.password1);
     const user = await prisma.user.create({
         data: {
             email: formData.email,
             username: formData.username,
             accountType: formData.accountType,
-            password: formData.password1
+            password: passwordHash
         }
     });
 
