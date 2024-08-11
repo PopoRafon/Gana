@@ -1,15 +1,16 @@
 import { cookies } from 'next/headers';
 import { createAccessToken, createRefreshToken } from '@/utils/tokens';
-import { isRegistrationFormValid } from './validators';
+import { validateRegistrationForm } from './validators';
 import Password from '@/utils/password';
 import prisma from '@/db/config';
 
 export async function POST(request: Request) {
     const formData = await request.json();
+    const formErrors = await validateRegistrationForm(formData);
 
-    if (!await isRegistrationFormValid(formData)) {
+    if (Object.values(formErrors).some(error => error.length !== 0)) {
         return Response.json({
-            data: 'Credentials you provided are incorrect.',
+            data: formErrors,
             status: 'error'
         }, { status: 400 });
     }

@@ -1,9 +1,10 @@
+import type { Field } from '@/app/api/types/types';
 import Password from '@/utils/password';
 import prisma from '@/db/config';
 
 type LoginFormData = {
-    username: undefined | string | number;
-    password: undefined | string | number;
+    username: Field;
+    password: Field;
 }
 
 export async function isLoginFormValid(formData: LoginFormData): Promise<boolean> {

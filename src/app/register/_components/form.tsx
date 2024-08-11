@@ -1,6 +1,7 @@
 'use client';
 
 import type { FormEvent, ChangeEvent } from 'react';
+import type { RegisterFormData, RegisterFormErrors } from './types';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/userContext';
@@ -8,18 +9,11 @@ import Email from './email';
 import Username from './username';
 import Password from './password';
 
-type RegisterFormData = {
-    email: string;
-    username: string;
-    accountType: '' | 'company' | 'personal';
-    password1: string;
-    password2: string;
-}
-
 export default function Form() {
     const router = useRouter();
     const { setUser } = useUserContext();
     const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: '', password1: '', password2: '' });
+    const [formErrors, setFormErrors] = useState<RegisterFormErrors>({ email: '', username: '', accountType: '', password1: '', password2: '' });
     const [showField, setShowField] = useState<'email' | 'username' | 'password'>('email');
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -60,6 +54,8 @@ export default function Form() {
                 accountType: formData.accountType
             });
             router.push('/');
+        } else {
+            setFormErrors(await response.json());
         }
     }
 
@@ -72,21 +68,22 @@ export default function Form() {
         >
             {showField === 'email' && (
                 <Email
-                    email={formData.email}
+                    formData={formData}
+                    formErrors={formErrors}
                     handleChange={handleChange}
                 />
             )}
             {showField === 'username' && (
                 <Username
-                    username={formData.username}
-                    accountType={formData.accountType}
+                    formData={formData}
+                    formErrors={formErrors}
                     handleChange={handleChange}
                 />
             )}
             {showField === 'password' && (
                 <Password
-                    password1={formData.password1}
-                    password2={formData.password2}
+                    formData={formData}
+                    formErrors={formErrors}
                     handleChange={handleChange}
                 />
             )}
