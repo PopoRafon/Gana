@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import TextInput from '@/components/form/textInput';
 import Submit from '@/components/form/submit';
 import RadioInput from '@/components/form/radioInput';
@@ -13,6 +13,11 @@ type UsernameProps = {
 }
 
 export default function Username({ formData, handleChange }: UsernameProps) {
+    const usernameRequirements = useMemo<string[]>(() => [
+        'Username must contain only alphabet characters and numbers.',
+        'Username must be between 8 and 16 characters',
+        'Username must be unique.'
+    ], []);
     const [error, setError] = useState<boolean>(true);
 
     useEffect(() => {
@@ -42,6 +47,7 @@ export default function Username({ formData, handleChange }: UsernameProps) {
                 label="Username"
                 name="username"
                 value={formData.username}
+                requirements={usernameRequirements}
                 handleChange={handleChange}
                 type="text"
             />

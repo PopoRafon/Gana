@@ -3,7 +3,6 @@
     --border-color-transition: 0.15s;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
     font-size: medium;
     position: relative;
 }
@@ -83,4 +82,12 @@
 
 .label:focus-within .label-name {
     color: var(--border-color);
+}
+
+.requirements {
+    margin: 0px;
+    font-size: small;
+    font-weight: 600;
+    margin-top: 4px;
+    padding-left: 1rem;
 }

@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import PasswordInput from '@/components/form/passwordInput';
 import Submit from '@/components/form/submit';
 
@@ -11,6 +11,8 @@ type PasswordProps = {
 }
 
 export default function Password({ formData, handleChange }: PasswordProps) {
+    const password1Requirements = useMemo<string[]>(() => ['Password must be between 8 and 32 characters.'], []);
+    const password2Requirements = useMemo<string[]>(() => ['Password confirmation must be the same as password.'], []);
     const [error, setError] = useState<boolean>(true);
 
     useEffect(() => {
@@ -36,12 +38,14 @@ export default function Password({ formData, handleChange }: PasswordProps) {
                 label="Password"
                 name="password1"
                 value={formData.password1}
+                requirements={password1Requirements}
                 handleChange={handleChange}
             />
             <PasswordInput
                 label="Confirm Password"
                 name="password2"
                 value={formData.password2}
+                requirements={password2Requirements}
                 handleChange={handleChange}
             />
             <Submit
