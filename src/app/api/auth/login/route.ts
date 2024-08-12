@@ -1,7 +1,7 @@
 import type { User } from '@prisma/client';
 import { cookies } from 'next/headers';
 import { isLoginFormValid } from './validators';
-import { createRefreshToken, createAccessToken } from '@/utils/tokens';
+import { RefreshToken, AccessToken } from '@/utils/tokens';
 import { REFRESH_TOKEN_LIFETIME, ACCESS_TOKEN_LIFETIME } from '@/settings';
 import prisma from '@/db/config';
 
@@ -17,8 +17,8 @@ export async function POST(request: Request) {
 
     const cookieStore = cookies();
     const user = await prisma.user.findFirst({ where: { username: formData.username } }) as User;
-    const refreshToken = await createRefreshToken(user.id);
-    const accessToken = await createAccessToken(user.id);
+    const refreshToken = RefreshToken.create(user.id);
+    const accessToken = AccessToken.create(user.id);
 
     cookieStore.set({
         name: 'refresh',

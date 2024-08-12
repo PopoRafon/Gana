@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { createAccessToken, createRefreshToken } from '@/utils/tokens';
+import { AccessToken, RefreshToken } from '@/utils/tokens';
 import { validateRegistrationForm } from './validators';
 import Password from '@/utils/password';
 import prisma from '@/db/config';
@@ -26,8 +26,8 @@ export async function POST(request: Request) {
     });
 
     const cookieStore = cookies();
-    const accessToken = await createAccessToken(user.id);
-    const refreshToken = await createRefreshToken(user.id);
+    const accessToken = AccessToken.create(user.id);
+    const refreshToken = RefreshToken.create(user.id);
 
     cookieStore.set({
         name: 'access',

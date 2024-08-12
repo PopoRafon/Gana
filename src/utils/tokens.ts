@@ -1,20 +1,39 @@
 import { SECRET_KEY, ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from '@/settings';
 import jwt from 'jsonwebtoken';
 
-export async function createAccessToken(userId: number): Promise<string> {
-    const payload: Record<string, string | number> = {
-        userId,
-        type: 'refresh'
-    };
-
-    return jwt.sign(payload, SECRET_KEY, { expiresIn: ACCESS_TOKEN_LIFETIME });
+type TokenPayload = {
+    userId: number;
+    type: string;
 }
 
-export async function createRefreshToken(userId: number): Promise<string> {
-    const payload: Record<string, string | number> = {
-        userId,
-        type: 'refresh'
-    };
+class Token {
+    private tokenType: string;
+    private tokenLifetime: number;
 
-    return jwt.sign(payload, SECRET_KEY, { expiresIn: REFRESH_TOKEN_LIFETIME });
+    constructor(type: string, lifetime: number) {
+        this.tokenType = type;
+        this.tokenLifetime = lifetime;
+    }
+
+    create(userId: number): string {
+        const payload: TokenPayload = {
+            userId,
+            type: this.tokenType
+        };
+
+        return jwt.sign(payload, SECRET_KEY, { expiresIn: this.tokenLifetime });
+    }
+
+    verify(token: string): boolean {
+        try {
+            const verifiedToken = jwt.verify(token, SECRET_KEY) as TokenPayload;
+
+            return verifiedToken.type === this.tokenType;
+        } catch {
+            return false;
+        }
+    }
 }
+
+export const AccessToken: Token = new Token('access', ACCESS_TOKEN_LIFETIME);
+export const RefreshToken: Token = new Token('refresh', REFRESH_TOKEN_LIFETIME);

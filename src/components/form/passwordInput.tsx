@@ -15,6 +15,7 @@ type PasswordInputProps = {
 }
 
 export default function PasswordInput({ label, name, value, handleChange, requirements=[] }: PasswordInputProps) {
+    const [showRequirements, setShowRequirements] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     return (
@@ -29,6 +30,8 @@ export default function PasswordInput({ label, name, value, handleChange, requir
                         type={showPassword ? 'text' : 'password'}
                         name={name}
                         value={value}
+                        onFocus={() => setShowRequirements(true)}
+                        onBlur={() => setShowRequirements(false)}
                         onChange={handleChange}
                     />
                     <button
@@ -54,9 +57,11 @@ export default function PasswordInput({ label, name, value, handleChange, requir
                     </button>
                 </div>
             </label>
-            <Requirements
-                requirements={requirements}
-            />
+            {showRequirements && (
+                <Requirements
+                    requirements={requirements}
+                />
+            )}
         </div>
     );
 }
