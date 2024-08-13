@@ -1,6 +1,6 @@
 import type { Field } from '@/app/api/types/types';
 import Password from '@/utils/password';
-import prisma from '@/db/config';
+import prisma from '@/lib/db';
 
 type LoginFormData = {
     username: Field;

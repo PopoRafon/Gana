@@ -2,8 +2,8 @@ import type { User } from '@prisma/client';
 import { cookies } from 'next/headers';
 import { isLoginFormValid } from './validators';
 import { RefreshToken, AccessToken } from '@/utils/tokens';
-import { REFRESH_TOKEN_LIFETIME, ACCESS_TOKEN_LIFETIME } from '@/settings';
-import prisma from '@/db/config';
+import { REFRESH_TOKEN_LIFETIME, ACCESS_TOKEN_LIFETIME, USE_TLS } from '@/settings';
+import prisma from '@/lib/db';
 
 export async function POST(request: Request) {
     const formData = await request.json();
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
         name: 'refresh',
         value: refreshToken,
         httpOnly: true,
+        secure: USE_TLS,
         maxAge: REFRESH_TOKEN_LIFETIME
     });
 
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
         name: 'access',
         value: accessToken,
         httpOnly: true,
+        secure: USE_TLS,
         maxAge: ACCESS_TOKEN_LIFETIME
     });
 

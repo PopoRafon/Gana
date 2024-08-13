@@ -1,5 +1,5 @@
 import type { Field } from '@/app/api/types/types';
-import prisma from '@/db/config';
+import prisma from '@/lib/db';
 
 type RegisterFormData = {
     email: Field;
