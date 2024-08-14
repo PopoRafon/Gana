@@ -1,7 +1,8 @@
+import type { JwtPayload } from 'jsonwebtoken';
 import { SECRET_KEY, ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from '@/settings';
 import jwt from 'jsonwebtoken';
 
-type TokenPayload = {
+type TokenPayload = JwtPayload & {
     userId: number;
     type: string;
 }
@@ -32,6 +33,10 @@ class Token {
         } catch {
             return false;
         }
+    }
+
+    getPayload(token: string): TokenPayload {
+        return jwt.decode(token) as TokenPayload;
     }
 }
 
