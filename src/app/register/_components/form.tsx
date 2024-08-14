@@ -8,6 +8,7 @@ import { useUserContext } from '@/contexts/userContext';
 import Email from './email';
 import Username from './username';
 import Password from './password';
+import Cookies from 'js-cookie';
 
 export default function Form() {
     const router = useRouter();
@@ -38,11 +39,13 @@ export default function Form() {
             return;
         }
 
+        const csrfToken: string = Cookies.get('csrftoken') ?? '';
         const response = await fetch('/api/auth/register', {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {
-                'Content-Type': 'application/json' // eslint-disable-line @typescript-eslint/naming-convention
+                'Content-Type': 'application/json', // eslint-disable-line @typescript-eslint/naming-convention
+                'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
             }
         });
 

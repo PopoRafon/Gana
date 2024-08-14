@@ -8,6 +8,7 @@ import TextInput from '@/components/form/textInput';
 import PasswordInput from '@/components/form/passwordInput';
 import Submit from '@/components/form/submit';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 
 type LoginFormData = {
     username: string;
@@ -56,11 +57,13 @@ export default function Form() {
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
+        const csrfToken: string = Cookies.get('csrftoken') ?? '';
         const response = await fetch('/api/auth/login', {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {
-                'Content-Type': 'application/json' // eslint-disable-line @typescript-eslint/naming-convention
+                'Content-Type': 'application/json', // eslint-disable-line @typescript-eslint/naming-convention
+                'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
             }
         });
 

@@ -25,7 +25,7 @@ export async function POST() {
     });
 
     return Response.json({
-        data: 'Your new access token has been issued.',
+        data: 'Your new access token has been successfully issued.',
         status: 'success'
     }, { status: 200 });
 }
