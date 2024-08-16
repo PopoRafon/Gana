@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import TextInput from '@/components/form/textInput';
 import Submit from '@/components/form/submit';
@@ -12,11 +12,12 @@ type EmailProps = {
     handleChange(event: ChangeEvent<HTMLInputElement>): void;
 }
 
+const emailRequirements: string[] = [
+    'Email address must be valid.',
+    'Email address must be unique.'
+];
+
 export default function Email({ formData, handleChange }: EmailProps) {
-    const emailRequirements = useMemo<string[]>(() => [
-        'Email address must be valid.',
-        'Email address must be unique.'
-    ], []);
     const [error, setError] = useState<boolean>(true);
 
     useEffect(() => {
