@@ -2,9 +2,8 @@
 
 import type { FormEvent, ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserContext } from '@/contexts/userContext';
 import Email from './email';
 import Username from './username';
 import Password from './password';
@@ -12,10 +11,13 @@ import Cookies from 'js-cookie';
 
 export default function Form() {
     const router = useRouter();
-    const { setUser } = useUserContext();
     const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: '', password1: '', password2: '' });
     const [formErrors, setFormErrors] = useState<RegisterFormErrors>({ email: '', username: '', accountType: '', password1: '', password2: '' });
     const [showField, setShowField] = useState<'email' | 'username' | 'password'>('email');
+
+    useEffect(() => {
+        fetch('/api/auth/token/csrf');
+    }, []);
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -39,7 +41,7 @@ export default function Form() {
             return;
         }
 
-        const csrfToken: string = Cookies.get('csrftoken') ?? '';
+        const csrfToken = Cookies.get('csrftoken') as string;
         const response = await fetch('/api/auth/register', {
             method: 'POST',
             body: JSON.stringify(formData),
@@ -50,12 +52,6 @@ export default function Form() {
         });
 
         if (response.ok) {
-            setUser({
-                isAuthenticated: true,
-                email: formData.email,
-                username: formData.username,
-                accountType: formData.accountType
-            });
             router.push('/');
         } else {
             setFormErrors(await response.json());

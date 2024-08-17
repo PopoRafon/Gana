@@ -21,6 +21,10 @@ export default function Form() {
     const [formData, setFormData] = useState<LoginFormData>({ username: '', password: '' });
 
     useEffect(() => {
+        fetch('/api/auth/token/csrf');
+    }, []);
+
+    useEffect(() => {
         setError(!isUsernameValid() || !isPasswordValid());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formData]);
@@ -57,7 +61,7 @@ export default function Form() {
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const csrfToken: string = Cookies.get('csrftoken') ?? '';
+        const csrfToken = Cookies.get('csrftoken') as string;
         const response = await fetch('/api/auth/login', {
             method: 'POST',
             body: JSON.stringify(formData),
