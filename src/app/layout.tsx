@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import type { ClientUser } from '@/types/client/user';
+import type { ClientUser } from '@/contexts/user/types';
 import { Roboto } from 'next/font/google';
 import { authenticate } from '@/lib/auth';
+import UserContextProvider from '@/contexts/user/userContextProvider';
 import Navigation from './_components/navigation';
 import './globals.css';
 
@@ -27,14 +28,14 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    await getUserData();
-
     return (
         <html lang="en">
-            <body className={roboto.className}>
-                <header><Navigation /></header>
-                {children}
-            </body>
+            <UserContextProvider initialUser={await getUserData()}>
+                <body className={roboto.className}>
+                    <header><Navigation /></header>
+                    {children}
+                </body>
+            </UserContextProvider>
         </html>
     );
 }
