@@ -1,8 +1,8 @@
 import { cookies } from 'next/headers';
 
-export function middleware(request: Request) {
-    const safeMethods: string[] = ['GET', 'HEAD', 'OPTIONS'];
+const safeMethods: string[] = ['GET', 'HEAD', 'OPTIONS'];
 
+export function middleware(request: Request) {
     if (!safeMethods.includes(request.method)) {
         const cookieStore = cookies();
         const headers = request.headers;

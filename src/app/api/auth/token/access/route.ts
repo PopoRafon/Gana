@@ -13,8 +13,8 @@ export async function POST() {
         }, { status: 401 });
     }
 
-    const payload = AccessToken.getPayload(refreshToken.value);
-    const accessToken = AccessToken.create(payload.userId);
+    const { userId } = RefreshToken.getPayload(refreshToken.value);
+    const accessToken = AccessToken.create(userId);
 
     cookieStore.set({
         name: 'access',
