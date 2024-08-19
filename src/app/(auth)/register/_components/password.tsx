@@ -1,6 +1,5 @@
 import type { ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
-import { useState, useEffect } from 'react';
 import PasswordInput from '@/components/form/passwordInput';
 import Submit from '@/components/form/submit';
 
@@ -14,12 +13,7 @@ const password1Requirements = ['Password must be between 8 and 32 characters.'];
 const password2Requirements = ['Password confirmation must be the same as password.'];
 
 export default function Password({ formData, handleChange }: PasswordProps) {
-    const [error, setError] = useState<boolean>(true);
-
-    useEffect(() => {
-        setError(!isPasswordValid());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [formData.password1, formData.password2]);
+    const error: boolean = !isPasswordValid();
 
     function isPasswordValid(): boolean {
         if (formData.password1.length < 8 || formData.password1.length > 32) {

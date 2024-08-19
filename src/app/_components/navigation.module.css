@@ -16,10 +16,11 @@
 .links-container {
     display: flex;
     gap: 0.25rem;
+    align-items: center;
 }
 
 .link {
-    padding: 0.5rem;
+    padding: 6px;
     box-sizing: border-box;
     font-weight: 500;
     border-radius: 5px;
@@ -34,4 +35,19 @@
 
 .link:visited {
     color: black;
+}
+
+.logout {
+    cursor: pointer;
+    background-color: transparent;
+    border: 0px;
+    display: flex;
+    padding: 0px;
+    border-radius: 5px;
+    padding: 2px;
+    transition: 0.3s;
+}
+
+.logout:hover {
+    background-color: rgb(0, 0, 0, 0.1);
 }

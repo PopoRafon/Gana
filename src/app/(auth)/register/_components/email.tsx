@@ -1,6 +1,5 @@
 import type { ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import TextInput from '@/components/form/textInput';
 import Submit from '@/components/form/submit';
@@ -18,19 +17,10 @@ const emailRequirements: string[] = [
 ];
 
 export default function Email({ formData, handleChange }: EmailProps) {
-    const [error, setError] = useState<boolean>(true);
-
-    useEffect(() => {
-        setError(!isEmailValid());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [formData.email]);
+    const error: boolean = !isEmailValid();
 
     function isEmailValid(): boolean {
-        if (!formData.email.match(/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/)) {
-            return false;
-        }
-
-        return true;
+        return /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(formData.email);
     }
 
     return (

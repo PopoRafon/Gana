@@ -1,6 +1,5 @@
 import type { ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
-import { useState, useEffect } from 'react';
 import TextInput from '@/components/form/textInput';
 import Submit from '@/components/form/submit';
 import RadioInput from '@/components/form/radioInput';
@@ -19,12 +18,7 @@ const usernameRequirements = [
 ];
 
 export default function Username({ formData, handleChange }: UsernameProps) {
-    const [error, setError] = useState<boolean>(true);
-
-    useEffect(() => {
-        setError(!isUsernameValid() || !isAccountTypeValid());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [formData.username, formData.accountType]);
+    const error: boolean = !isUsernameValid() || !isAccountTypeValid();
 
     function isUsernameValid(): boolean {
         if (formData.username.length < 8 || formData.username.length > 16) {
