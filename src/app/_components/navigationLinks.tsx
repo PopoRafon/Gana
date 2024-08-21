@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useUserContext } from '@/contexts/user/userContext';
+import { AccessToken } from '@/utils/client/tokenRefresh';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 import styles from './navigation.module.css';
@@ -35,6 +36,7 @@ export default function NavigationLinks() {
 
         if (response.ok) {
             setUser({ isAuthenticated: false });
+            AccessToken.removePeriodicRefresh();
         }
     }
 

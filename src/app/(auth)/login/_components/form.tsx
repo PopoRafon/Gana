@@ -3,6 +3,8 @@
 import type { ChangeEvent, FormEvent } from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/contexts/user/userContext';
+import { AccessToken } from '@/utils/client/tokenRefresh';
 import styles from './form.module.css';
 import TextInput from '@/components/form/textInput';
 import PasswordInput from '@/components/form/passwordInput';
@@ -16,6 +18,7 @@ type LoginFormData = {
 }
 
 export default function Form() {
+    const { setUser } = useUserContext();
     const router = useRouter();
     const [error, setError] = useState<boolean>(true);
     const [formData, setFormData] = useState<LoginFormData>({ username: '', password: '' });
@@ -72,6 +75,18 @@ export default function Form() {
         });
 
         if (response.ok) {
+            const userDataResponse = await fetch('/api/users', {
+                method: 'GET'
+            });
+
+            if (userDataResponse.ok) {
+                setUser({
+                    isAuthenticated: true,
+                    ...(await userDataResponse.json()).data
+                });
+            }
+
+            AccessToken.setPeriodicRefresh();
             router.push('/');
         }
     }

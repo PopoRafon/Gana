@@ -4,12 +4,15 @@ import type { FormEvent, ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/contexts/user/userContext';
+import { AccessToken } from '@/utils/client/tokenRefresh';
 import Email from './email';
 import Username from './username';
 import Password from './password';
 import Cookies from 'js-cookie';
 
 export default function Form() {
+    const { setUser } = useUserContext();
     const router = useRouter();
     const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: '', password1: '', password2: '' });
     const [formErrors, setFormErrors] = useState<RegisterFormErrors>({ email: '', username: '', accountType: '', password1: '', password2: '' });
@@ -52,6 +55,18 @@ export default function Form() {
         });
 
         if (response.ok) {
+            const userDataResponse = await fetch('/api/users', {
+                method: 'GET'
+            });
+
+            if (userDataResponse.ok) {
+                setUser({
+                    isAuthenticated: true,
+                    ...(await userDataResponse.json()).data
+                });
+            }
+
+            AccessToken.setPeriodicRefresh();
             router.push('/');
         } else {
             setFormErrors(await response.json());

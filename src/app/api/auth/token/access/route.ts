@@ -1,4 +1,4 @@
-import { RefreshToken, AccessToken } from '@/utils/tokens';
+import { RefreshToken, AccessToken } from '@/utils/server/tokens';
 import { cookies } from 'next/headers';
 import { ACCESS_TOKEN_LIFETIME, USE_TLS } from '@/settings';
 

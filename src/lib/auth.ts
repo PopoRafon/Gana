@@ -1,6 +1,6 @@
 import type { User } from '@prisma/client';
 import { cookies } from 'next/headers';
-import { AccessToken } from '@/utils/tokens';
+import { AccessToken } from '@/utils/server/tokens';
 import prisma from './db';
 
 export async function authenticate(): Promise<User | null> {

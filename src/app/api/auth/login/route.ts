@@ -1,7 +1,7 @@
 import type { User } from '@prisma/client';
 import { cookies } from 'next/headers';
 import { isLoginFormValid } from './validators';
-import { RefreshToken, AccessToken } from '@/utils/tokens';
+import { RefreshToken, AccessToken } from '@/utils/server/tokens';
 import { REFRESH_TOKEN_LIFETIME, ACCESS_TOKEN_LIFETIME, USE_TLS } from '@/settings';
 import prisma from '@/lib/db';
 
