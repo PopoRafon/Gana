@@ -12,7 +12,8 @@ export async function GET() {
 
     const data = {
         username: user.username,
-        accountType: user.accountType
+        accountType: user.accountType,
+        avatar: user.avatar
     };
 
     return Response.json({

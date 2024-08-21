@@ -20,7 +20,14 @@ async function getUserData(): Promise<ClientUser> {
         return { isAuthenticated: false };
     }
 
-    return { isAuthenticated: true, username: user.username, accountType: user.accountType };
+    const userData: ClientUser = {
+        isAuthenticated: true,
+        username: user.username,
+        accountType: user.accountType,
+        avatar: user.avatar
+    };
+
+    return userData;
 }
 
 export default async function RootLayout({

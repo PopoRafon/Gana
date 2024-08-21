@@ -2,6 +2,7 @@ type AuthenticatedUser = {
     isAuthenticated: true;
     username: string;
     accountType: 'personal' | 'company';
+    avatar: string;
 }
 
 type UnauthenticatedUser = {
