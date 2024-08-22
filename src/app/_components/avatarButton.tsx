@@ -6,7 +6,7 @@ import styles from './navigation.module.css';
 
 export default function AvatarButton() {
     const { user } = useUserContext();
-    const [showMenu, setShowMenu] = useState<boolean>(true);
+    const [showMenu, setShowMenu] = useState<boolean>(false);
 
     function handleMenu() {
         setShowMenu(!showMenu);
