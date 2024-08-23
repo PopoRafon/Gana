@@ -42,6 +42,9 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    border-left: 1px solid #EAEAEA;
+    padding-left: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .avatar-button {

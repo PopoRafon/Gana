@@ -8,11 +8,13 @@ import AvatarButton from './avatarButton';
 type NavigationLink = {
     name: string;
     href: string;
+    needsAuth: boolean;
 }
 
 const navigationLinks: NavigationLink[] = [
-    { name: 'Register', href: '/register' },
-    { name: 'Login', href: '/login' }
+    { name: 'Register', href: '/register', needsAuth: false },
+    { name: 'Login', href: '/login', needsAuth: false },
+    { name: 'Projects', href: '/projects', needsAuth: true }
 ];
 
 export default function NavigationLinks() {
@@ -20,8 +22,7 @@ export default function NavigationLinks() {
 
     return (
         <div className={styles['links-container']}>
-            <AvatarButton />
-            {!user.isAuthenticated && navigationLinks.map(link => (
+            {navigationLinks.map(link => link.needsAuth === user.isAuthenticated && (
                 <Link
                     href={link.href}
                     className={styles.link}
@@ -30,6 +31,9 @@ export default function NavigationLinks() {
                     {link.name}
                 </Link>
             ))}
+            {user.isAuthenticated && (
+                <AvatarButton />
+            )}
         </div>
     );
 }
