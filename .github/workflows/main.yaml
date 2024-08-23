@@ -1,0 +1,55 @@
+name: Next CI pipeline
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_NAME: gana
+      DATABASE_ROOT_PASSWORD: password
+
+    services:
+      mysql:
+        image: mysql
+        env:
+          MYSQL_DATABASE: ${{ env.DATABASE_NAME }}
+          MYSQL_ROOT_PASSWORD: ${{ env.DATABASE_ROOT_PASSWORD }}
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 3306:3306
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Setup Environment
+      run: |
+        touch .env
+        echo "SECRET_KEY=$(openssl rand -base64 32)" > .env
+        echo "DATABASE_URL=\"mysql://root:$DATABASE_ROOT_PASSWORD@localhost:3306/$DATABASE_NAME\"" > .env
+        echo "URL=\"http://localhost:3000\"" > .env
+
+    - name: Install Dependencies
+      run: |
+        npm install
+
+    - name: Setup Prisma
+      run: |
+        npm run migrate-dev
+
+    - name: Run Tests
+      run: |
+        npm run test
