@@ -38,9 +38,9 @@ jobs:
     - name: Setup Environment
       run: |
         touch .env
-        echo "SECRET_KEY=$(openssl rand -base64 32)" > .env
-        echo "DATABASE_URL=\"mysql://root:$DATABASE_ROOT_PASSWORD@localhost:3306/$DATABASE_NAME\"" > .env
-        echo "URL=\"http://localhost:3000\"" > .env
+        echo "SECRET_KEY=$(openssl rand -base64 32)" >> .env
+        echo "DATABASE_URL=\"mysql://root:$DATABASE_ROOT_PASSWORD@localhost:3306/$DATABASE_NAME\"" >> .env
+        echo "URL=\"http://localhost:3000\"" >> .env
 
     - name: Install Dependencies
       run: |

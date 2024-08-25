@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 export const USE_TLS: boolean = false;
 export const SECRET_KEY: string = process.env.SECRET_KEY ?? '';
 export const REFRESH_TOKEN_LIFETIME: number = 7 * 24 * 60 * 60; // 7 days
