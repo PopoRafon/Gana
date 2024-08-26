@@ -1,6 +1,6 @@
 import styles from './projects.module.css';
 import ProjectsList from './_components/projectsList';
-import CreateProjectButton from './_components/createProjectButton';
+import Link from 'next/link';
 
 export default function Projects() {
     return (
@@ -8,7 +8,12 @@ export default function Projects() {
             <section className={styles.container}>
                 <div className={styles.header}>
                     <h2 className={styles['header-text']}>Your Projects</h2>
-                    <CreateProjectButton />
+                    <Link
+                        href="/projects?show=true"
+                        className={styles['create-project-button']}
+                    >
+                        Create
+                    </Link>
                 </div>
                 <div className={styles.body}>
                     <ProjectsList />

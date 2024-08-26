@@ -30,8 +30,8 @@ export default async function ProjectsList() {
 
     return (
         <ul className={styles.list}>
-            {projects.map(project => (
-                <li key={project}>
+            {projects.map((project, index) => (
+                <li key={`${index} ${project}`}>
                     {project}
                 </li>
             ))}
