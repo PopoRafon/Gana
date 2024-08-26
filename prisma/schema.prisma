@@ -12,6 +12,17 @@ enum AccountType {
     company
 }
 
+enum ProjectRole {
+    admin
+    member
+}
+
+enum TaskStatus {
+    pending
+    inProgress
+    done
+}
+
 model User {
     id          Int @id @default(autoincrement())
     email       String @unique
@@ -19,4 +30,32 @@ model User {
     username    String @db.VarChar(16) @unique
     password    String
     accountType AccountType
+    projects    UserProject[]
+    tasks       Task[]
+}
+
+model Project {
+    id          Int @id @default(autoincrement())
+    name        String
+    users       UserProject[]
+    tasks       Task[]
+}
+
+model UserProject {
+    userId      Int
+    user        User @relation(fields: [userId], references: [id])
+    projectId   Int
+    project     Project @relation(fields: [projectId], references: [id])
+    role        ProjectRole
+    @@id([userId, projectId])
+}
+
+model Task {
+    id          Int @id @default(autoincrement())
+    creatorId   Int
+    creator     User @relation(fields: [creatorId], references: [id])
+    projectId   Int
+    project     Project @relation(fields: [projectId], references: [id])
+    description String @db.VarChar(255)
+    status      TaskStatus @default(pending)
 }
