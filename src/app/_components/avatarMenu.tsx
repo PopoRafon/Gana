@@ -1,15 +1,16 @@
 import { useEffect, useRef } from 'react';
-import { AccessToken } from '@/utils/client/tokenRefresh';
 import { useUserContext } from '@/contexts/user/userContext';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
+import { useRouter } from 'next/navigation';
 import styles from './navigation.module.css';
 import Image from 'next/image';
-import Cookies from 'js-cookie';
 
 type AvatarMenuProps = {
     setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function AvatarMenu({ setShowMenu }: AvatarMenuProps) {
+    const router = useRouter();
     const { setUser } = useUserContext();
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -28,14 +29,7 @@ export default function AvatarMenu({ setShowMenu }: AvatarMenuProps) {
     }, [setShowMenu]);
 
     async function handleLogout() {
-        let csrfToken: string | undefined = Cookies.get('csrftoken');
-
-        if (!csrfToken) {
-            await fetch('/api/auth/token/csrf');
-
-            csrfToken = Cookies.get('csrftoken') as string;
-        }
-
+        const csrfToken: string = await getCSRFToken();
         const response = await fetch('/api/auth/logout', {
             method: 'POST',
             headers: {
@@ -45,7 +39,7 @@ export default function AvatarMenu({ setShowMenu }: AvatarMenuProps) {
 
         if (response.ok) {
             setUser({ isAuthenticated: false });
-            AccessToken.removePeriodicRefresh();
+            router.push('/');
         }
     }
 

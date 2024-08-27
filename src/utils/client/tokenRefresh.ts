@@ -23,17 +23,7 @@ export class AccessToken {
     }
 
     static async refresh(): Promise<void> {
-        let csrfToken: string | undefined = Cookies.get('csrftoken');
-
-        if (!csrfToken) {
-            const response = await fetch('/api/auth/token/csrf');
-
-            if (!response.ok) {
-                return;
-            }
-
-            csrfToken = Cookies.get('csrftoken') as string;
-        }
+        const csrfToken: string = await getCSRFToken();
 
         await fetch('/api/auth/token/access', {
             method: 'POST',
@@ -42,4 +32,16 @@ export class AccessToken {
             }
         });
     }
+}
+
+export async function getCSRFToken(): Promise<string> {
+    let csrfToken: string | undefined = Cookies.get('csrftoken');
+
+    if (!csrfToken) {
+        await fetch('/api/auth/token/csrf');
+
+        csrfToken = Cookies.get('csrftoken') as string;
+    }
+
+    return csrfToken;
 }

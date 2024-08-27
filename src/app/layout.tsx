@@ -48,9 +48,9 @@ export default async function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <TokenRefresher />
             <UserContextProvider initialUser={await getUserData()}>
                 <body className={roboto.className}>
+                    <TokenRefresher />
                     <header><Navigation /></header>
                     {children}
                 </body>

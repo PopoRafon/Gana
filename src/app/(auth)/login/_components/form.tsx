@@ -4,13 +4,12 @@ import type { ChangeEvent, FormEvent } from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/user/userContext';
-import { AccessToken } from '@/utils/client/tokenRefresh';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
 import styles from './form.module.css';
 import TextInput from '@/components/form/textInput';
 import PasswordInput from '@/components/form/passwordInput';
 import Submit from '@/components/form/submit';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
 
 type LoginFormData = {
     username: string;
@@ -22,10 +21,6 @@ export default function Form() {
     const router = useRouter();
     const [error, setError] = useState<boolean>(true);
     const [formData, setFormData] = useState<LoginFormData>({ username: '', password: '' });
-
-    useEffect(() => {
-        fetch('/api/auth/token/csrf');
-    }, []);
 
     useEffect(() => {
         setError(!isUsernameValid() || !isPasswordValid());
@@ -64,7 +59,7 @@ export default function Form() {
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const csrfToken = Cookies.get('csrftoken') as string;
+        const csrfToken: string = await getCSRFToken();
         const response = await fetch('/api/auth/login', {
             method: 'POST',
             body: JSON.stringify(formData),
@@ -86,7 +81,6 @@ export default function Form() {
                 });
             }
 
-            AccessToken.setPeriodicRefresh();
             router.push('/');
         }
     }

@@ -1,11 +1,11 @@
 'use client';
 
 import type { ChangeEvent, FormEvent } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
 import Submit from '@/components/form/submit';
 import TextInput from '@/components/form/textInput';
-import Cookies from 'js-cookie';
 
 type ProjectFormData = {
     name: string;
@@ -14,10 +14,6 @@ type ProjectFormData = {
 export default function CreateProjectForm() {
     const router = useRouter();
     const [formData, setFormData] = useState<ProjectFormData>({ name: '' });
-
-    useEffect(() => {
-        fetch('/api/auth/token/csrf');
-    }, []);
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -31,7 +27,7 @@ export default function CreateProjectForm() {
     async function handleSubmit(event: FormEvent) {
         event.preventDefault();
 
-        const csrfToken = Cookies.get('csrftoken') as string;
+        const csrfToken: string = await getCSRFToken();
         const response = await fetch('/api/projects', {
             method: 'POST',
             headers: {

@@ -2,14 +2,13 @@
 
 import type { FormEvent, ChangeEvent } from 'react';
 import type { RegisterFormData, RegisterFormErrors } from './types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/user/userContext';
-import { AccessToken } from '@/utils/client/tokenRefresh';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
 import Email from './email';
 import Username from './username';
 import Password from './password';
-import Cookies from 'js-cookie';
 
 export default function Form() {
     const { setUser } = useUserContext();
@@ -17,10 +16,6 @@ export default function Form() {
     const [formData, setFormData] = useState<RegisterFormData>({ email: '', username: '', accountType: '', password1: '', password2: '' });
     const [formErrors, setFormErrors] = useState<RegisterFormErrors>({ email: '', username: '', accountType: '', password1: '', password2: '' });
     const [showField, setShowField] = useState<'email' | 'username' | 'password'>('email');
-
-    useEffect(() => {
-        fetch('/api/auth/token/csrf');
-    }, []);
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -44,7 +39,7 @@ export default function Form() {
             return;
         }
 
-        const csrfToken = Cookies.get('csrftoken') as string;
+        const csrfToken: string = await getCSRFToken();
         const response = await fetch('/api/auth/register', {
             method: 'POST',
             body: JSON.stringify(formData),
@@ -66,7 +61,6 @@ export default function Form() {
                 });
             }
 
-            AccessToken.setPeriodicRefresh();
             router.push('/');
         } else {
             setFormErrors(await response.json());
