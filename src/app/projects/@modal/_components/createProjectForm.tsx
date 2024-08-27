@@ -1,7 +1,7 @@
 'use client';
 
 import type { ChangeEvent, FormEvent } from 'react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCSRFToken } from '@/utils/client/tokenRefresh';
 import Submit from '@/components/form/submit';
@@ -13,7 +13,17 @@ type ProjectFormData = {
 
 export default function CreateProjectForm() {
     const router = useRouter();
+    const isSending = useRef<boolean>(false);
+    const [error, setError] = useState<boolean>(true);
     const [formData, setFormData] = useState<ProjectFormData>({ name: '' });
+
+    useEffect(() => {
+        setError(!isNameValid());
+    }, [formData]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    function isNameValid(): boolean {
+        return formData.name.length >= 1 && formData.name.length <= 255;
+    }
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -27,18 +37,24 @@ export default function CreateProjectForm() {
     async function handleSubmit(event: FormEvent) {
         event.preventDefault();
 
-        const csrfToken: string = await getCSRFToken();
-        const response = await fetch('/api/projects', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json', // eslint-disable-line @typescript-eslint/naming-convention
-                'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
-            },
-            body: JSON.stringify(formData)
-        });
+        if (!isSending.current) {
+            isSending.current = true;
+            const csrfToken: string = await getCSRFToken();
+            const response = await fetch('/api/projects', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // eslint-disable-line @typescript-eslint/naming-convention
+                    'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
+                },
+                body: JSON.stringify(formData)
+            });
 
-        if (response.ok) {
-            router.push('/projects');
+            if (response.ok) {
+                router.push('/projects');
+                router.refresh();
+            } else {
+                isSending.current = false;
+            }
         }
     }
 
@@ -57,6 +73,7 @@ export default function CreateProjectForm() {
             />
             <Submit
                 value="Create"
+                disabled={error}
             />
         </form>
     );
