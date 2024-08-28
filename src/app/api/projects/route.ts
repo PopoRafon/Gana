@@ -31,7 +31,7 @@ export async function POST(request: Request) {
         data: {
             userId: user.id,
             projectId: project.id,
-            role: 'admin'
+            role: 'creator'
         }
     });
 

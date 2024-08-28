@@ -15,6 +15,7 @@ enum AccountType {
 enum ProjectRole {
     admin
     member
+    creator
 }
 
 enum TaskStatus {
@@ -35,7 +36,7 @@ model User {
 }
 
 model Project {
-    id          Int @id @default(autoincrement())
+    id          String @id @default(uuid())
     name        String
     users       UserProject[]
     tasks       Task[]
@@ -44,7 +45,7 @@ model Project {
 model UserProject {
     userId      Int
     user        User @relation(fields: [userId], references: [id])
-    projectId   Int
+    projectId   String
     project     Project @relation(fields: [projectId], references: [id])
     role        ProjectRole
     @@id([userId, projectId])
@@ -54,7 +55,7 @@ model Task {
     id          Int @id @default(autoincrement())
     creatorId   Int
     creator     User @relation(fields: [creatorId], references: [id])
-    projectId   Int
+    projectId   String
     project     Project @relation(fields: [projectId], references: [id])
     description String @db.VarChar(255)
     status      TaskStatus @default(pending)

@@ -1,5 +1,5 @@
 import styles from './projects.module.css';
-import ProjectsList from './_components/projectsList';
+import ProjectsTable from './_components/projectsTable';
 import Link from 'next/link';
 
 export default function Projects() {
@@ -16,7 +16,7 @@ export default function Projects() {
                     </Link>
                 </div>
                 <div className={styles.body}>
-                    <ProjectsList />
+                    <ProjectsTable />
                 </div>
             </section>
         </main>
