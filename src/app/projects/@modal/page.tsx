@@ -3,11 +3,11 @@ import CreateProjectForm from './_components/createProjectForm';
 import Link from 'next/link';
 import Image from 'next/image';
 
-type CreateProjectModal = {
+export type CreateProjectModalProps = {
     searchParams: Record<string, string> | undefined;
 }
 
-export default function CreateProjectModal({ searchParams }: CreateProjectModal) {
+export default function CreateProjectModal({ searchParams }: CreateProjectModalProps) {
     const show: string | undefined = searchParams?.show;
 
     if (show !== 'true') {
