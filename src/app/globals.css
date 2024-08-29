@@ -107,3 +107,29 @@ main {
 .page-not-found-go-home-button:hover {
     background-color: rgb(54, 104, 246);
 }
+
+.error-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    margin: auto;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    padding: 0 0.5rem;
+}
+
+.error-page-text {
+    margin: 0px;
+    color: #33363F;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.error-page-contact {
+    margin: 0px;
+    color: #D0D0D0;
+    text-wrap: balance;
+    text-align: center;
+}
