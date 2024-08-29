@@ -1,4 +1,4 @@
-import styles from './projects.module.css';
+import styles from './page.module.css';
 import ProjectsTable from './_components/projectsTable';
 import Link from 'next/link';
 

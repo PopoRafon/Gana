@@ -1,4 +1,4 @@
-import styles from './modal.module.css';
+import styles from './page.module.css';
 import CreateProjectForm from './_components/createProjectForm';
 import Link from 'next/link';
 import Image from 'next/image';
