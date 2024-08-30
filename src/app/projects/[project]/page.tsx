@@ -48,7 +48,7 @@ export default async function Project({ params }: ProjectProps) {
 
     return (
         <main className="page-dark-bg">
-            <section className={styles.container}>
+            <div className={styles.container}>
                 <Tasks
                     type="Pending"
                     tasks={pending}
@@ -61,7 +61,7 @@ export default async function Project({ params }: ProjectProps) {
                     type="Done"
                     tasks={done}
                 />
-            </section>
+            </div>
         </main>
     );
 }
