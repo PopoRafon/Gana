@@ -1,18 +1,24 @@
 import type { ChangeEvent, FormEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
+import { useParams, useRouter } from 'next/navigation';
 import styles from './project.module.css';
 
 type TaskCreationFormProps = {
     setShowTaskCreationForm: React.Dispatch<React.SetStateAction<boolean>>;
+    type: string;
 }
 
 type TaskCreationFormData = {
     description: string;
+    status: string;
 }
 
-export default function TaskCreationForm({ setShowTaskCreationForm }: TaskCreationFormProps) {
+export default function TaskCreationForm({ setShowTaskCreationForm, type }: TaskCreationFormProps) {
+    const router = useRouter();
+    const params = useParams();
     const [error, setError] = useState<boolean>(true);
-    const [formData, setFormData] = useState<TaskCreationFormData>({ description: '' });
+    const [formData, setFormData] = useState<TaskCreationFormData>({ description: '', status: type });
     const formRef = useRef<HTMLFormElement | null>(null);
 
     useEffect(() => {
@@ -42,8 +48,24 @@ export default function TaskCreationForm({ setShowTaskCreationForm }: TaskCreati
         });
     }
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        const csrfToken: string = await getCSRFToken();
+        const projectId = params.project;
+        const response = await fetch(`/api/projects/${projectId}/tasks`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // eslint-disable-line @typescript-eslint/naming-convention
+                'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            setShowTaskCreationForm(false);
+            router.refresh();
+        }
     }
 
     function isDescriptionValid(): boolean {

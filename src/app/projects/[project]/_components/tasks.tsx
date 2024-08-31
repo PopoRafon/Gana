@@ -7,16 +7,17 @@ import TaskCreationForm from './taskCreationForm';
 import Image from 'next/image';
 
 type TasksProps = {
+    header: string;
     type: string;
     tasks: string[];
 }
 
-export default function Tasks({ type, tasks }: TasksProps) {
+export default function Tasks({ header, type, tasks }: TasksProps) {
     const [showTaskCreationForm, setShowTaskCreationForm] = useState<boolean>(false);
 
     return (
         <section className={styles.tasks}>
-            <h3 className={styles['tasks-header']}>{type}</h3>
+            <h3 className={styles['tasks-header']}>{header}</h3>
             <ul className={styles['tasks-list']}>
                 {tasks.map((task, index) => (
                     <Task
@@ -29,6 +30,7 @@ export default function Tasks({ type, tasks }: TasksProps) {
                 {showTaskCreationForm ? (
                     <TaskCreationForm
                         setShowTaskCreationForm={setShowTaskCreationForm}
+                        type={type}
                     />
                 ) : (
                     <button
