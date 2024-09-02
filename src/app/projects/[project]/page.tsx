@@ -25,15 +25,20 @@ async function isUserAllowed(projectId: string): Promise<boolean> {
     return project !== null;
 }
 
-async function getTasks(projectId: string) {
+async function getTasks(projectId: string): Promise<Record<string, string[]>> {
     const tasks: Array<Record<string, string | string[]>> = await prisma.$queryRaw`
         SELECT Task.status, JSON_ARRAYAGG(Task.description) AS tasks
         FROM Task
         WHERE Task.projectId = ${projectId}
         GROUP BY Task.status
     `;
+    const filteredTasks = tasks.reduce((prev, curr) => {
+        prev[curr.status as string] = curr.tasks;
 
-    return tasks;
+        return prev;
+    }, { pending: [], inProgress: [], done: [] }) as Record<string, string[]>;
+
+    return filteredTasks;
 }
 
 export default async function Project({ params }: ProjectProps) {
@@ -42,9 +47,9 @@ export default async function Project({ params }: ProjectProps) {
     }
 
     const tasks = await getTasks(params.project);
-    const pending = tasks.filter(obj => obj.status === 'pending')[0].tasks as string[];
-    const inProgress = tasks.filter(obj => obj.status === 'inProgress')[0].tasks as string[];
-    const done = tasks.filter(obj => obj.status === 'done')[0].tasks as string[];
+    const pending = tasks.pending;
+    const inProgress = tasks.inProgress;
+    const done = tasks.done;
 
     return (
         <main className="page-dark-bg">

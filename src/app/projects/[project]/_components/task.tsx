@@ -7,7 +7,10 @@ type TaskProps = {
 
 export default function Task({ task }: TaskProps) {
     return (
-        <li className={styles.task}>
+        <li
+            className={styles.task}
+            draggable={true}
+        >
             <span>{task}</span>
             <button
                 className={styles['task-settings']}
