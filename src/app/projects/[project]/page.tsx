@@ -1,3 +1,4 @@
+import type { ClientTask } from './_components/types';
 import { authenticate } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import styles from './page.module.css';
@@ -25,9 +26,9 @@ async function isUserAllowed(projectId: string): Promise<boolean> {
     return project !== null;
 }
 
-async function getTasks(projectId: string): Promise<Record<string, string[]>> {
-    const tasks: Array<Record<string, string | string[]>> = await prisma.$queryRaw`
-        SELECT Task.status, JSON_ARRAYAGG(Task.description) AS tasks
+async function getTasks(projectId: string): Promise<Record<string, ClientTask[]>> {
+    const tasks: Array<Record<string, string | ClientTask[]>> = await prisma.$queryRaw`
+        SELECT Task.status, JSON_ARRAYAGG(JSON_OBJECT('id', Task.id, 'description', Task.description)) AS tasks
         FROM Task
         WHERE Task.projectId = ${projectId}
         GROUP BY Task.status
@@ -36,7 +37,7 @@ async function getTasks(projectId: string): Promise<Record<string, string[]>> {
         prev[curr.status as string] = curr.tasks;
 
         return prev;
-    }, { pending: [], inProgress: [], done: [] }) as Record<string, string[]>;
+    }, { pending: [], inProgress: [], done: [] }) as Record<string, ClientTask[]>;
 
     return filteredTasks;
 }
