@@ -1,4 +1,4 @@
-import { isTaskFormValid } from './validators';
+import { isCreateTaskFormValid } from './validators';
 import { authenticate } from '@/lib/auth';
 import prisma from '@/lib/db';
 
@@ -18,7 +18,7 @@ export async function POST(
     const formData = await request.json();
     const projectId: string | undefined = params.projectId;
 
-    if (!await isTaskFormValid(formData, projectId, user)) {
+    if (!await isCreateTaskFormValid(formData, projectId, user)) {
         return Response.json({
             data: 'Error occurred when trying to create new task.',
             status: 'error'

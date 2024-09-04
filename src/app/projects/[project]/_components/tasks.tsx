@@ -3,6 +3,8 @@
 import type { ClientTask } from './types';
 import type { DragEvent } from 'react';
 import { useState } from 'react';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
+import { useParams, useRouter } from 'next/navigation';
 import styles from './project.module.css';
 import Task from './task';
 import TaskCreationForm from './taskCreationForm';
@@ -15,6 +17,8 @@ type TasksProps = {
 }
 
 export default function Tasks({ header, type, tasks }: TasksProps) {
+    const router = useRouter();
+    const { project } = useParams();
     const [showTaskCreationForm, setShowTaskCreationForm] = useState<boolean>(false);
 
     function handleDragEnter(event: DragEvent<HTMLElement>) {
@@ -27,11 +31,28 @@ export default function Tasks({ header, type, tasks }: TasksProps) {
         }
     }
 
-    function handleDrop(event: DragEvent<HTMLLIElement>) {
+    async function handleDrop(event: DragEvent<HTMLLIElement>) {
         event.currentTarget.removeAttribute('style');
 
         try {
-            JSON.parse(event.dataTransfer.getData('text/plain'));
+            const data = JSON.parse(event.dataTransfer.getData('text/plain'));
+
+            if (data.type && data.type !== type) {
+                const payload = { status: type };
+                const csrfToken: string = await getCSRFToken();
+                const response = await fetch(`/api/projects/${project}/tasks/${data.taskId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json', // eslint-disable-line @typescript-eslint/naming-convention
+                        'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    router.refresh();
+                }
+            }
         } catch {
             return;
         }
