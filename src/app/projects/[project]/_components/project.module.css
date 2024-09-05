@@ -3,8 +3,6 @@
     border-radius: 5px;
     border: 1px solid #EAEAEA;
     padding: 0.5rem 1rem;
-    max-height: 600px;
-    overflow: auto;
     box-sizing: border-box;
     width: 300px;
     box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.08);
@@ -37,24 +35,11 @@
     position: relative;
     box-shadow: 1px 1px 2px rgb(0, 0, 0, 0.08);
     box-sizing: border-box;
-    overflow: hidden;
     font-size: 15px;
 }
 
 .task:hover {
     background-color: #FAFAFA;
-}
-
-.task-settings {
-    display: flex;
-    cursor: pointer;
-    background-color: transparent;
-    border-radius: 5px;
-    padding: 0px;
-    border: 0px;
-    position: absolute;
-    top: 4px;
-    right: 4px;
 }
 
 .create-task-button {
@@ -127,4 +112,61 @@
 .task-creation-form-input:focus {
     outline: 0px;
     border: 0px;
+}
+
+.task-open-settings-container {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+
+.task-open-settings-button {
+    display: flex;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 2px;
+    border: 0px;
+}
+
+.task-open-settings-button:hover {
+    background-color: #E0E0E0;
+}
+
+.task-settings {
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 4px;
+    border-radius: 5px;
+    border: 1px solid #EAEAEA;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.1);
+    z-index: 4;
+}
+
+.task-settings::after {
+    content: "";
+    border-width: 5px;
+    border-style: solid;
+    border-color: #EAEAEA transparent transparent transparent;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.task-settings-button {
+    cursor: pointer;
+    background-color: transparent;
+    border: 0px;
+    width: 60px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+.task-settings-button:hover {
+    background-color: #EAEAEA;
 }

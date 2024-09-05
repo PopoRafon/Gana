@@ -55,21 +55,23 @@ export default async function Project({ params }: ProjectProps) {
     return (
         <main className="page-dark-bg">
             <div className={styles.container}>
-                <Tasks
-                    header="Pending"
-                    type="pending"
-                    tasks={pending}
-                />
-                <Tasks
-                    header="In Progress"
-                    type="inProgress"
-                    tasks={inProgress}
-                />
-                <Tasks
-                    header="Done"
-                    type="done"
-                    tasks={done}
-                />
+                <div className={styles['tasks-container']}>
+                    <Tasks
+                        header="Pending"
+                        type="pending"
+                        tasks={pending}
+                    />
+                    <Tasks
+                        header="In Progress"
+                        type="inProgress"
+                        tasks={inProgress}
+                    />
+                    <Tasks
+                        header="Done"
+                        type="done"
+                        tasks={done}
+                    />
+                </div>
             </div>
         </main>
     );
