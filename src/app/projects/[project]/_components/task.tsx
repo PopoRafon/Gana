@@ -45,6 +45,7 @@ export default function Task({ task, type }: TaskProps) {
                 {showSettings && (
                     <TaskSettings
                         setShowSettings={setShowSettings}
+                        taskId={task.id}
                     />
                 )}
             </div>

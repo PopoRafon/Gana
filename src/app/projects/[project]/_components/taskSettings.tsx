@@ -1,11 +1,16 @@
 import { useRef, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
 import styles from './project.module.css';
 
 type TaskSettingsProps = {
     setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
+    taskId: number;
 }
 
-export default function TaskSettings({ setShowSettings }: TaskSettingsProps) {
+export default function TaskSettings({ setShowSettings, taskId }: TaskSettingsProps) {
+    const { project } = useParams();
+    const router = useRouter();
     const settingsRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -22,8 +27,19 @@ export default function TaskSettings({ setShowSettings }: TaskSettingsProps) {
         };
     }, [setShowSettings]);
 
-    function handleDeletion() {
+    async function handleDeletion() {
+        const csrfToken: string = await getCSRFToken();
+        const response = await fetch(`/api/projects/${project}/tasks/${taskId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
+            }
+        });
 
+        if (response.ok) {
+            setShowSettings(false);
+            router.refresh();
+        }
     }
 
     return (

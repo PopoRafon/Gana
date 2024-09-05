@@ -97,3 +97,36 @@ export async function isUpdateTaskFormValid(
 
     return true;
 }
+
+export async function isDeleteTaskFormValid(
+    projectId: string | undefined,
+    taskId: number,
+    user: User
+): Promise<boolean> {
+    if (typeof projectId !== 'string') {
+        return false;
+    }
+
+    const project = await prisma.userProject.findFirst({
+        where: {
+            projectId,
+            userId: user.id
+        }
+    });
+
+    if (!project) {
+        return false;
+    }
+
+    const task = await prisma.task.findFirst({
+        where: {
+            id: taskId
+        }
+    });
+
+    if (!task || task.projectId !== project.projectId) {
+        return false;
+    }
+
+    return true;
+}
