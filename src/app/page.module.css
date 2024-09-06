@@ -1,0 +1,64 @@
+.page {
+    background-color: #65D5FF5A;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #404040;
+    gap: 0.5rem;
+}
+
+.header {
+    margin: 0px;
+    font-size: clamp(36px, 10vw, 40px);
+}
+
+.website-description {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: large;
+}
+
+.website-description p {
+    margin: 0px;
+    text-align: center;
+}
+
+.get-started-button {
+    background-color: rgb(0, 160, 255);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    color: white;
+    font-size: 17px;
+    transition: 0.25s;
+}
+
+.get-started-button:visited {
+    color: white;
+}
+
+.get-started-button:hover {
+    background-color: rgb(0, 150, 255);
+}
+
+.waves {
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    height: clamp(90px, 30vw, 150px);
+}
+
+.waves-top {
+    top: 50px;
+}
+
+.waves-bottom {
+    bottom: 0;
+    transform: rotate(180deg);
+}
