@@ -51,6 +51,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
+    request: Request,
     { params }: { params: { projectId: string | undefined, taskId: string | undefined } }
 ) {
     const user = await authenticate();

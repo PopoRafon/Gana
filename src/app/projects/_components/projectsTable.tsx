@@ -2,7 +2,7 @@ import { authenticate } from '@/lib/auth';
 import styles from './projects.module.css';
 import prisma from '@/lib/db';
 import Link from 'next/link';
-import Image from 'next/image';
+import ProjectMoreOptions from './projectMoreOptions';
 
 type Project = {
     id: string;
@@ -60,17 +60,8 @@ export default async function ProjectsTable() {
                             </Link>
                         </td>
                         <td>{project.creator}</td>
-                        <td>
-                            <button
-                                className={styles['more-options-button']}
-                            >
-                                <Image
-                                    src="/images/icons/more.svg"
-                                    width={20}
-                                    height={20}
-                                    alt="More options image"
-                                />
-                            </button>
+                        <td style={{ overflow: 'visible' }}>
+                            <ProjectMoreOptions />
                         </td>
                     </tr>
                 ))}
