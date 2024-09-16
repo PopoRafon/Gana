@@ -1,5 +1,5 @@
 import { authenticate } from '@/lib/auth';
-import { isProjectFormValid } from './validators';
+import { isCreateProjectFormValid } from './validators';
 import prisma from '@/lib/db';
 
 export async function POST(request: Request) {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
     const formData = await request.json();
 
-    if (!isProjectFormValid(formData)) {
+    if (!isCreateProjectFormValid(formData)) {
         return Response.json({
             data: 'You need to provide valid name in order to create new project.',
             status: 'error'
