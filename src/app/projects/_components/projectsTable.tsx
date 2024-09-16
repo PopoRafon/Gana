@@ -61,7 +61,9 @@ export default async function ProjectsTable() {
                         </td>
                         <td>{project.creator}</td>
                         <td style={{ overflow: 'visible' }}>
-                            <ProjectMoreOptions />
+                            <ProjectMoreOptions
+                                projectId={project.id}
+                            />
                         </td>
                     </tr>
                 ))}

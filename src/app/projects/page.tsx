@@ -15,7 +15,7 @@ export default async function Projects() {
                 <div className={styles.header}>
                     <h2 className={styles['header-text']}>Your Projects</h2>
                     <Link
-                        href="/projects?show=true"
+                        href="/projects?modal=create"
                         className={styles['create-project-button']}
                     >
                         Create

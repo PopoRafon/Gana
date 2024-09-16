@@ -1,23 +1,34 @@
 import styles from './page.module.css';
 import CreateProjectForm from './_components/createProjectForm';
+import DeleteProjectForm from './_components/deleteProjectForm';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export type CreateProjectModalProps = {
+export type ProjectModalProps = {
     searchParams: Record<string, string> | undefined;
 }
 
-export default function CreateProjectModal({ searchParams }: CreateProjectModalProps) {
-    const show: string | undefined = searchParams?.show;
+type ModalForm = {
+    header: string;
+    form: JSX.Element;
+}
 
-    if (show !== 'true') {
+const modalForms: Record<string, ModalForm> = {
+    create: { header: 'Create Project', form: <CreateProjectForm /> },
+    delete: { header: 'Delete Project', form: <DeleteProjectForm /> }
+};
+
+export default function ProjectModal({ searchParams }: ProjectModalProps) {
+    const modal: string | undefined = searchParams?.modal;
+
+    if (!modal || !Object.keys(modalForms).includes(modal)) {
         return null;
     }
 
     return (
         <section className={styles.backdrop}>
             <div className={`auth-form-container ${styles.modal}`}>
-                <h2 className="auth-form-header">Create Project</h2>
+                <h2 className="auth-form-header">{modalForms[modal].header}</h2>
                 <Link
                     href="/projects"
                     className={styles['close-modal-button']}
@@ -29,7 +40,7 @@ export default function CreateProjectModal({ searchParams }: CreateProjectModalP
                         alt="Close modal image"
                     />
                 </Link>
-                <CreateProjectForm />
+                {modalForms[modal].form}
             </div>
         </section>
     );

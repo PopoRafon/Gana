@@ -47,7 +47,6 @@
 .submit {
     cursor: pointer;
     width: 100%;
-    background: rgb(82, 82, 255);
     padding: 0.6rem 0px;
     color: white;
     font-size: medium;
@@ -57,8 +56,20 @@
     transition: 0.3s;
 }
 
-.submit:hover {
+.submit-primary {
+    background: rgb(82, 82, 255);
+}
+
+.submit-primary:hover {
     background-color: rgb(76, 76, 248);
+}
+
+.submit-danger {
+    background-color: rgb(255, 79, 79);
+}
+
+.submit-danger:hover {
+    background-color: rgb(248, 73, 73);
 }
 
 .submit:disabled {

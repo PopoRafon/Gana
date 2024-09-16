@@ -1,0 +1,11 @@
+.project-deletion-information {
+    text-align: center;
+    margin: 0px;
+}
+
+.project-deletion-caution {
+    font-size: 15px;
+    margin: 0px;
+    text-align: center;
+    color: red;
+}

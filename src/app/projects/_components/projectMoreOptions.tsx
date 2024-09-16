@@ -2,16 +2,23 @@
 
 import type { Setting } from '@/components/modal/types';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './projects.module.css';
 import Image from 'next/image';
 import SettingsModal from '@/components/modal/settingsModal';
 
-export default function ProjectMoreOptions() {
+type ProjectMoreOptions = {
+    projectId: string;
+}
+
+export default function ProjectMoreOptions({ projectId }: ProjectMoreOptions) {
+    const router = useRouter();
     const [showSettings, setShowSettings] = useState<boolean>(false);
     const settings: Setting[] = [{ text: 'Delete', handleClick: handleDelete }];
 
     function handleDelete() {
-
+        router.push(`/projects?modal=delete&project-id=${projectId}`);
+        setShowSettings(false);
     }
 
     return (
