@@ -2,6 +2,9 @@
 
 import type { ChangeEvent, FormEvent } from 'react';
 import { useState, useEffect } from 'react';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Submit from '@/components/form/submit';
 import TextInput from '@/components/form/textInput';
 
@@ -10,6 +13,8 @@ type UpdateProjectFormData = {
 }
 
 export default function UpdateProjectForm() {
+    const router = useRouter();
+    const params = useSearchParams();
     const [error, setError] = useState<boolean>(true);
     const [formData, setFormData] = useState<UpdateProjectFormData>({ name: '' });
 
@@ -30,8 +35,26 @@ export default function UpdateProjectForm() {
         });
     }
 
-    function handleSubmit(event: FormEvent) {
+    async function handleSubmit(event: FormEvent) {
         event.preventDefault();
+
+        const projectId = params.get('project-id');
+        const csrfToken: string = await getCSRFToken();
+        const response = await fetch(`/api/projects/${projectId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json', // eslint-disable-line @typescript-eslint/naming-convention
+                'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            router.push('/projects');
+            router.refresh();
+        } else {
+            router.push('/projects');
+        }
     }
 
     return (
