@@ -14,10 +14,18 @@ type ProjectMoreOptions = {
 export default function ProjectMoreOptions({ projectId }: ProjectMoreOptions) {
     const router = useRouter();
     const [showSettings, setShowSettings] = useState<boolean>(false);
-    const settings: Setting[] = [{ text: 'Delete', handleClick: handleDelete }];
+    const settings: Setting[] = [
+        { text: 'Update', handleClick: handleUpdate },
+        { text: 'Delete', handleClick: handleDelete }
+    ];
 
     function handleDelete() {
         router.push(`/projects?modal=delete&project-id=${projectId}`);
+        setShowSettings(false);
+    }
+
+    function handleUpdate() {
+        router.push(`/projects?modal=update&project-id=${projectId}`);
         setShowSettings(false);
     }
 

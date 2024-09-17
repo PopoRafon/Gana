@@ -1,6 +1,7 @@
 import styles from './page.module.css';
 import CreateProjectForm from './_components/createProjectForm';
 import DeleteProjectForm from './_components/deleteProjectForm';
+import UpdateProjectForm from './_components/updateProjectForm';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -15,7 +16,8 @@ type ModalForm = {
 
 const modalForms: Record<string, ModalForm> = {
     create: { header: 'Create Project', form: <CreateProjectForm /> },
-    delete: { header: 'Delete Project', form: <DeleteProjectForm /> }
+    delete: { header: 'Delete Project', form: <DeleteProjectForm /> },
+    update: { header: 'Update Project', form: <UpdateProjectForm /> }
 };
 
 export default function ProjectModal({ searchParams }: ProjectModalProps) {

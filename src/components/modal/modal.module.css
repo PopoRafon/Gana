@@ -1,4 +1,7 @@
 .settings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
     position: absolute;
     bottom: calc(100% + 5px);
     left: 50%;
