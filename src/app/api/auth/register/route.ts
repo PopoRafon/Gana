@@ -27,8 +27,8 @@ export async function POST(request: Request) {
     });
 
     const cookieStore = cookies();
-    const accessToken = AccessToken.create(user.id);
-    const refreshToken = RefreshToken.create(user.id);
+    const accessToken = await AccessToken.create(user.id);
+    const refreshToken = await RefreshToken.create(user.id);
 
     cookieStore.set({
         name: 'access',

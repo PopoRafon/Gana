@@ -1,8 +1,8 @@
-import type { JwtPayload } from 'jsonwebtoken';
-import { SECRET_KEY, ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from '@/settings';
-import jwt from 'jsonwebtoken';
+import type { JWTPayload } from 'jose';
+import { SignJWT, jwtVerify } from 'jose';
+import { SECRET_KEY, REFRESH_TOKEN_LIFETIME, ACCESS_TOKEN_LIFETIME } from '@/settings';
 
-type TokenPayload = JwtPayload & {
+type TokenPayload = JWTPayload & {
     userId: number;
     type: string;
 }
@@ -13,30 +13,33 @@ class Token {
 
     constructor(type: string, lifetime: number) {
         this.tokenType = type;
-        this.tokenLifetime = lifetime;
+        this.tokenLifetime = lifetime * 1000;
     }
 
-    create(userId: number): string {
+    async create(userId: number): Promise<string> {
         const payload: TokenPayload = {
             userId,
             type: this.tokenType
         };
 
-        return jwt.sign(payload, SECRET_KEY, { expiresIn: this.tokenLifetime });
+        return await new SignJWT(payload)
+            .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+            .setExpirationTime(Date.now() + this.tokenLifetime)
+            .sign(new TextEncoder().encode(SECRET_KEY));
     }
 
-    verify(token: string): boolean {
+    async verify(token: string): Promise<TokenPayload | null> {
         try {
-            const verifiedToken = jwt.verify(token, SECRET_KEY) as TokenPayload;
+            const verifiedToken = await jwtVerify<TokenPayload>(token, new TextEncoder().encode(SECRET_KEY));
 
-            return verifiedToken.type === this.tokenType;
+            if (verifiedToken.payload.type !== this.tokenType) {
+                return null;
+            }
+
+            return verifiedToken.payload;
         } catch {
-            return false;
+            return null;
         }
-    }
-
-    getPayload(token: string): TokenPayload {
-        return jwt.decode(token) as TokenPayload;
     }
 }
 

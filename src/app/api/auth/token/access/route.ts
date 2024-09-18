@@ -6,15 +6,23 @@ export async function POST() {
     const cookieStore = cookies();
     const refreshToken = cookieStore.get('refresh');
 
-    if (!refreshToken || !RefreshToken.verify(refreshToken.value)) {
+    if (!refreshToken) {
+        return Response.json({
+            data: 'You must be authenticated.',
+            status: 'error'
+        }, { status: 401 });
+    }
+
+    const verifiedRefreshToken = await RefreshToken.verify(refreshToken.value);
+
+    if (!verifiedRefreshToken) {
         return Response.json({
             data: 'Refresh token you provided is invalid.',
             status: 'error'
         }, { status: 401 });
     }
 
-    const { userId } = RefreshToken.getPayload(refreshToken.value);
-    const accessToken = AccessToken.create(userId);
+    const accessToken = await AccessToken.create(verifiedRefreshToken.userId);
 
     cookieStore.set({
         name: 'access',

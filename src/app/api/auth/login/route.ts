@@ -16,9 +16,13 @@ export async function POST(request: Request) {
     }
 
     const cookieStore = cookies();
-    const user = await prisma.user.findFirst({ where: { username: formData.username } }) as User;
-    const refreshToken = RefreshToken.create(user.id);
-    const accessToken = AccessToken.create(user.id);
+    const user = await prisma.user.findFirst({
+        where: {
+            username: formData.username
+        }
+    }) as User;
+    const refreshToken = await RefreshToken.create(user.id);
+    const accessToken = await AccessToken.create(user.id);
 
     cookieStore.set({
         name: 'refresh',

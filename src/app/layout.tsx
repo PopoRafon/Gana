@@ -4,7 +4,6 @@ import { Roboto } from 'next/font/google';
 import { cookies } from 'next/headers';
 import { RefreshToken } from '@/utils/server/tokens';
 import prisma from '@/lib/db';
-import TokenRefresher from './_components/tokenRefresher';
 import UserContextProvider from '@/contexts/user/userContextProvider';
 import Navigation from './_components/navigation';
 import './globals.css';
@@ -20,12 +19,21 @@ async function getUserData(): Promise<ClientUser> {
     const cookieStore = cookies();
     const refreshToken = cookieStore.get('refresh');
 
-    if (!refreshToken || !RefreshToken.verify(refreshToken.value)) {
+    if (!refreshToken) {
         return { isAuthenticated: false };
     }
 
-    const { userId } = RefreshToken.getPayload(refreshToken.value);
-    const user = await prisma.user.findFirst({ where: { id: userId } });
+    const verifiedRefreshToken = await RefreshToken.verify(refreshToken.value);
+
+    if (!verifiedRefreshToken) {
+        return { isAuthenticated: false };
+    }
+
+    const user = await prisma.user.findFirst({
+        where: {
+            id: verifiedRefreshToken.userId
+        }
+    });
 
     if (!user) {
         return { isAuthenticated: false };
@@ -50,7 +58,6 @@ export default async function RootLayout({
         <html lang="en">
             <UserContextProvider initialUser={await getUserData()}>
                 <body className={roboto.className}>
-                    <TokenRefresher />
                     <header><Navigation /></header>
                     {children}
                 </body>

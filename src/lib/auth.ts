@@ -7,12 +7,21 @@ export async function authenticate(): Promise<User | null> {
     const cookieStore = cookies();
     const accessToken = cookieStore.get('access');
 
-    if (!accessToken || !AccessToken.verify(accessToken.value)) {
+    if (!accessToken) {
         return null;
     }
 
-    const { userId } = AccessToken.getPayload(accessToken.value);
-    const user = await prisma.user.findFirst({ where: { id: userId } });
+    const verifiedAccessToken = await AccessToken.verify(accessToken.value);
+
+    if (!verifiedAccessToken) {
+        return null;
+    }
+
+    const user = await prisma.user.findFirst({
+        where: {
+            id: verifiedAccessToken.userId
+        }
+    });
 
     return user;
 }
