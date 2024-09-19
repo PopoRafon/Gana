@@ -1,17 +1,28 @@
 import type { User } from '@prisma/client';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { AccessToken } from '@/utils/server/tokens';
 import prisma from './db';
 
 export async function authenticate(): Promise<User | null> {
     const cookieStore = cookies();
-    const accessToken = cookieStore.get('access');
+    let accessToken: string | undefined = cookieStore.get('access')?.value;
 
     if (!accessToken) {
-        return null;
+        const headersList = headers();
+        const setCookieHeader = headersList.get('set-cookie');
+
+        if (!setCookieHeader) {
+            return null;
+        }
+
+        accessToken = setCookieHeader.match(/access=([\w-.]+)/)?.[1];
+
+        if (!accessToken) {
+            return null;
+        }
     }
 
-    const verifiedAccessToken = await AccessToken.verify(accessToken.value);
+    const verifiedAccessToken = await AccessToken.verify(accessToken);
 
     if (!verifiedAccessToken) {
         return null;

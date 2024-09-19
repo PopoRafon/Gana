@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import type { ClientUser } from '@/contexts/user/types';
 import { Roboto } from 'next/font/google';
-import { cookies } from 'next/headers';
-import { RefreshToken } from '@/utils/server/tokens';
-import prisma from '@/lib/db';
+import { authenticate } from '@/lib/auth';
 import UserContextProvider from '@/contexts/user/userContextProvider';
 import Navigation from './_components/navigation';
 import './globals.css';
@@ -16,24 +14,7 @@ export const metadata: Metadata = {
 };
 
 async function getUserData(): Promise<ClientUser> {
-    const cookieStore = cookies();
-    const refreshToken = cookieStore.get('refresh');
-
-    if (!refreshToken) {
-        return { isAuthenticated: false };
-    }
-
-    const verifiedRefreshToken = await RefreshToken.verify(refreshToken.value);
-
-    if (!verifiedRefreshToken) {
-        return { isAuthenticated: false };
-    }
-
-    const user = await prisma.user.findFirst({
-        where: {
-            id: verifiedRefreshToken.userId
-        }
-    });
+    const user = await authenticate();
 
     if (!user) {
         return { isAuthenticated: false };

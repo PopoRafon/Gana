@@ -43,5 +43,5 @@ export async function middleware(request: Request) {
 }
 
 export const config = {
-    matcher: ['/:path*']
+    matcher: '/((?!.*\\.).*)'
 };
