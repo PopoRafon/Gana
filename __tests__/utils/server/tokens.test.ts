@@ -2,29 +2,23 @@ import { describe, expect, test } from 'vitest';
 import { RefreshToken, AccessToken } from '@/utils/server/tokens';
 
 describe('token server util', () => {
-    const userId: number = 12;
+    const userId: number = Math.round(Math.random() * 100);
 
-    test('create method correctly creates token with provided userID argument inside its payload', () => {
-        const token = RefreshToken.create(userId);
+    test('create method correctly creates token with provided userID argument inside its payload', async () => {
+        const token = await RefreshToken.create(userId);
 
         expect(token).not.toBeNull();
         expect(typeof token).toBe('string');
     });
 
-    test('verify method correctly verifies provided token', () => {
-        const token = RefreshToken.create(userId);
+    test('verify method correctly verifies provided token and returns its payload', async () => {
+        const token = await RefreshToken.create(userId);
+        const verifiedToken = await RefreshToken.verify(token);
 
-        expect(RefreshToken.verify(token)).toBeTruthy();
-        expect(RefreshToken.verify('incorrecttoken')).toBeFalsy();
-        expect(AccessToken.verify(token)).toBeFalsy();
-    });
-
-    test('getPayload method correctly returns provided tokens payload', () => {
-        const token = RefreshToken.create(userId);
-        const payload = RefreshToken.getPayload(token);
-
-        expect(payload).not.toBeNull();
-        expect(payload.userId).toBe(userId);
-        expect(payload.type).toBe('refresh');
+        expect(verifiedToken).not.toBeNull();
+        expect(verifiedToken?.userId).toBe(userId);
+        expect(verifiedToken?.type).toBe('refresh');
+        expect(await RefreshToken.verify('incorrecttoken')).toBeNull();
+        expect(await AccessToken.verify(token)).toBeNull();
     });
 });

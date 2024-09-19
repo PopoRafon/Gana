@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
-    "dotenv": "^16.4.5",
     "jose": "^5.9.2",
     "js-cookie": "^3.0.5",
     "next": "14.2.5",

@@ -6,8 +6,11 @@ export default defineConfig({
     plugins: [react(), tsconfigPaths()],
     test: {
         globals: true,
-        environment: 'jsdom',
-        setupFiles: ['dotenv/config', './tests/setup.ts'],
+        environmentMatchGlobs: [
+            ['**/server/*', 'node'],
+            ['**', 'jsdom']
+        ],
+        setupFiles: ['./tests/setup.ts'],
         css: true
     },
 });
