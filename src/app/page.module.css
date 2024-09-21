@@ -35,6 +35,8 @@
     color: white;
     font-size: 17px;
     transition: 0.25s;
+    font-weight: 500;
+    box-shadow: 0px 0px 4px 2px rgb(60, 98, 255, 0.15);
 }
 
 .get-started-button:visited {

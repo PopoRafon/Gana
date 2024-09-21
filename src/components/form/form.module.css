@@ -49,8 +49,8 @@
     width: 100%;
     padding: 0.6rem 0px;
     color: white;
-    font-size: medium;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 500;
     border-radius: 5px;
     border: 0px;
     transition: 0.3s;
@@ -98,6 +98,8 @@
 .requirements {
     margin: 0px;
     font-size: small;
-    font-weight: 600;
+    font-weight: 500;
     padding-left: 1rem;
+    transition: 0.5s;
+    overflow: hidden;
 }

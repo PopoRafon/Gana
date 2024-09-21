@@ -6,7 +6,10 @@ import UserContextProvider from '@/contexts/user/userContextProvider';
 import Navigation from './_components/navigation';
 import './globals.css';
 
-const roboto = Roboto({ weight: '400', subsets: ['latin'] });
+const roboto = Roboto({
+    weight: ['400', '500', '700'],
+    subsets: ['latin']
+});
 
 export const metadata: Metadata = {
     title: 'Gana',

@@ -34,11 +34,10 @@ export default function TextInput({ label, name, value, handleChange, requiremen
                     autoComplete="off"
                 />
             </label>
-            {showRequirements && (
-                <Requirements
-                    requirements={requirements}
-                />
-            )}
+            <Requirements
+                requirements={requirements}
+                showRequirements={showRequirements}
+            />
         </div>
     );
 }

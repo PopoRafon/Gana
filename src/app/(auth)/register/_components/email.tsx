@@ -34,7 +34,7 @@ export default function Email({ formData, handleChange }: EmailProps) {
                 type="email"
             />
             <p className={styles.agreement}>
-                By clicking button &quot;Sign up&quot; you agree to <Link href="/terms-of-service">Terms Of Service</Link>.
+                By clicking button &quot;<span style={{ fontWeight: '500' }}>Sign up</span>&quot; you agree to <Link href="/terms-of-service">Terms Of Service</Link>.
             </p>
             <Submit
                 value="Sign up"

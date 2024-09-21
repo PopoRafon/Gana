@@ -57,11 +57,10 @@ export default function PasswordInput({ label, name, value, handleChange, requir
                     </button>
                 </div>
             </label>
-            {showRequirements && (
-                <Requirements
-                    requirements={requirements}
-                />
-            )}
+            <Requirements
+                requirements={requirements}
+                showRequirements={showRequirements}
+            />
         </div>
     );
 }
