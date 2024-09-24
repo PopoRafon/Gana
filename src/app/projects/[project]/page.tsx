@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import styles from './page.module.css';
 import prisma from '@/lib/db';
 import Tasks from './_components/tasks';
+import KanbanBoardHeader from './_components/kanbanBoardHeader';
 
 type ProjectProps = {
     params: Record<string, string> | undefined;
@@ -55,6 +56,9 @@ export default async function Project({ params }: ProjectProps) {
     return (
         <main className="page-dark-bg">
             <div className={styles.container}>
+                <KanbanBoardHeader
+                    project={params.project}
+                />
                 <div className={styles['tasks-container']}>
                     <Tasks
                         header="Pending"

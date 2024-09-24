@@ -133,3 +133,72 @@
 .task-open-settings-button:hover {
     background-color: #E0E0E0;
 }
+
+.kanban-board-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 1rem 1rem 0;
+    box-sizing: border-box;
+}
+
+.kanban-board-header-text {
+    margin: 0px;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.kanban-board-header-body {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.search-task-label {
+    position: relative;
+}
+
+.search-task-input {
+    padding: 0.5rem 0.25rem 0.5rem 1.5rem;
+    border-radius: 5px;
+    border: 1px solid #EAEAEA;
+    font-size: clamp(14px, 4vw, 15px);
+    width: 200px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0.08);
+}
+
+.search-task-image {
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    translate: 0 -50%;
+}
+
+.project-users-list {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.project-users-list-user-container {
+    display: flex;
+    background-color: transparent;
+}
+
+.project-users-list-user-image {
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.1);
+}
+
+.project-users-list-add-user-button {
+    cursor: pointer;
+    display: flex;
+    border: 0px;
+    border-radius: 50%;
+    padding: 0;
+    background-color: white;
+}
