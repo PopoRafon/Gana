@@ -5,7 +5,7 @@ import type { DragEvent } from 'react';
 import { useState } from 'react';
 import { getCSRFToken } from '@/utils/client/tokenRefresh';
 import { useParams, useRouter } from 'next/navigation';
-import styles from './project.module.css';
+import styles from './tasks.module.css';
 import Task from './task';
 import TaskCreationForm from './taskCreationForm';
 import Image from 'next/image';

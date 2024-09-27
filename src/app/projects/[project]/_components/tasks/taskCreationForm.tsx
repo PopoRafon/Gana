@@ -2,7 +2,7 @@ import type { ChangeEvent, FormEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { getCSRFToken } from '@/utils/client/tokenRefresh';
 import { useParams, useRouter } from 'next/navigation';
-import styles from './project.module.css';
+import styles from './tasks.module.css';
 
 type TaskCreationFormProps = {
     setShowTaskCreationForm: React.Dispatch<React.SetStateAction<boolean>>;

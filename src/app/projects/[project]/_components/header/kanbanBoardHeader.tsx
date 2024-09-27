@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import styles from './project.module.css';
+import styles from './header.module.css';
 import prisma from '@/lib/db';
+import Link from 'next/link';
 
 type KanbanUser = {
     username: string;
@@ -55,19 +56,19 @@ export default async function KanbanBoardHeader({ project }: KanbanBoardHeaderPr
                             />
                         </div>
                     ))}
-                    <button
+                    <Link
+                        href={`/projects/${project}?modal=users`}
                         title="Add User"
                         className={styles['project-users-list-add-user-button']}
                     >
                         <Image
-                            src="/images/icons/add.svg"
-                            width={18}
-                            height={18}
-                            style={{ padding: '2px' }}
+                            src="/images/icons/add-user.svg"
+                            width={26}
+                            height={26}
                             className={styles['project-users-list-user-image']}
                             alt="Add user image"
                         />
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

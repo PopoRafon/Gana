@@ -133,3 +133,28 @@ main {
     text-wrap: balance;
     text-align: center;
 }
+
+.modal {
+    position: relative;
+    animation: scale-animation 0.6s normal 0s 1;
+}
+
+@keyframes scale-animation {
+    0% {
+        scale: 0;
+    }
+    100% {
+        scale: 1;
+    }
+}
+
+.modal-backdrop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(0, 0, 0, 0.1);
+    z-index: 999;
+}

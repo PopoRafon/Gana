@@ -4,7 +4,7 @@ import type { Setting } from '@/components/modal/types';
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { getCSRFToken } from '@/utils/client/tokenRefresh';
-import styles from './project.module.css';
+import styles from './tasks.module.css';
 import Image from 'next/image';
 import SettingsModal from '@/components/modal/settingsModal';
 

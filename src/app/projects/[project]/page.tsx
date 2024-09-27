@@ -1,10 +1,10 @@
-import type { ClientTask } from './_components/types';
+import type { ClientTask } from './_components/tasks/types';
 import { authenticate } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import styles from './page.module.css';
 import prisma from '@/lib/db';
-import Tasks from './_components/tasks';
-import KanbanBoardHeader from './_components/kanbanBoardHeader';
+import Tasks from './_components/tasks/tasks';
+import KanbanBoardHeader from './_components/header/kanbanBoardHeader';
 
 type ProjectProps = {
     params: Record<string, string> | undefined;

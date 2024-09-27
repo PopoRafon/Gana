@@ -1,9 +1,7 @@
-import styles from './page.module.css';
 import CreateProjectForm from './_components/createProjectForm';
 import DeleteProjectForm from './_components/deleteProjectForm';
 import UpdateProjectForm from './_components/updateProjectForm';
-import Link from 'next/link';
-import Image from 'next/image';
+import CloseModalButton from '@/components/modal/closeModalButton';
 
 export type ProjectModalProps = {
     searchParams: Record<string, string> | undefined;
@@ -28,20 +26,12 @@ export default function ProjectModal({ searchParams }: ProjectModalProps) {
     }
 
     return (
-        <section className={styles.backdrop}>
-            <div className={`auth-form-container ${styles.modal}`}>
+        <section className="modal-backdrop">
+            <div className="auth-form-container modal">
                 <h2 className="auth-form-header">{modalForms[modal].header}</h2>
-                <Link
-                    href="/projects"
-                    className={styles['close-modal-button']}
-                >
-                    <Image
-                        src="/images/icons/close.svg"
-                        width={20}
-                        height={20}
-                        alt="Close modal image"
-                    />
-                </Link>
+                <CloseModalButton
+                    returnURL="/projects"
+                />
                 {modalForms[modal].form}
             </div>
         </section>
