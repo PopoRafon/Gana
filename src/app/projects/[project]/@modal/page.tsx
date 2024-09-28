@@ -1,4 +1,5 @@
 import CloseModalButton from '@/components/modal/closeModalButton';
+import AddUserForm from './_components/addUserForm';
 
 export type UsersModalProps = {
     searchParams: Record<string, string> | undefined;
@@ -15,9 +16,11 @@ export default function UsersModal({ searchParams, params }: UsersModalProps) {
     return (
         <section className="modal-backdrop">
             <div className="auth-form-container modal">
+                <h2 className="auth-form-header">Project Users</h2>
                 <CloseModalButton
                     returnURL={`/projects/${params.project}`}
                 />
+                <AddUserForm />
             </div>
         </section>
     );
