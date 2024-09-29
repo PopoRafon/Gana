@@ -20,7 +20,9 @@ export default function UsersModal({ searchParams, params }: UsersModalProps) {
                 <CloseModalButton
                     returnURL={`/projects/${params.project}`}
                 />
-                <AddUserForm />
+                <AddUserForm
+                    projectId={params.project}
+                />
             </div>
         </section>
     );

@@ -2,13 +2,19 @@
 
 import type { ChangeEvent, FormEvent } from 'react';
 import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { getCSRFToken } from '@/utils/client/tokenRefresh';
 import TextInput from '@/components/form/textInput';
 import Submit from '@/components/form/submit';
 import SelectInput from '@/components/form/selectInput';
 
 type AddUserFormData = {
-    user: string;
+    username: string;
     role: 'admin' | 'member';
+}
+
+type AddUserFormProps = {
+    projectId: string;
 }
 
 const options = [
@@ -16,16 +22,18 @@ const options = [
     { text: 'Administrator', value: 'admin' }
 ];
 
-export default function AddUserForm() {
-    const [formData, setFormData] = useState<AddUserFormData>({ user: '', role: 'member' });
+export default function AddUserForm({ projectId }: AddUserFormProps) {
+    const router = useRouter();
+    const params = useParams();
+    const [formData, setFormData] = useState<AddUserFormData>({ username: '', role: 'member' });
     const [error, setError] = useState<boolean>(true);
 
     useEffect(() => {
-        setError(!isUserValid());
+        setError(!isUsernameValid());
     }, [formData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    function isUserValid(): boolean {
-        if (formData.user.length < 1) {
+    function isUsernameValid(): boolean {
+        if (formData.username.length < 1) {
             return false;
         }
 
@@ -41,8 +49,23 @@ export default function AddUserForm() {
         });
     }
 
-    function handleSubmit(event: FormEvent) {
+    async function handleSubmit(event: FormEvent) {
         event.preventDefault();
+
+        const csrfToken: string = await getCSRFToken();
+        const response = await fetch(`/api/projects/${params.project}/users`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // eslint-disable-line @typescript-eslint/naming-convention
+                'X-CSRFToken': csrfToken // eslint-disable-line @typescript-eslint/naming-convention
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            router.push(`/projects/${projectId}`);
+            router.refresh();
+        }
     }
 
     return (
@@ -53,9 +76,9 @@ export default function AddUserForm() {
             noValidate
         >
             <TextInput
-                label="Username or Email Address"
-                name="user"
-                value={formData.user}
+                label="Username"
+                name="username"
+                value={formData.username}
                 handleChange={handleChange}
             />
             <SelectInput
