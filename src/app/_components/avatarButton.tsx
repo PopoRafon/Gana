@@ -22,12 +22,10 @@ export default function AvatarButton() {
                 className={styles['avatar-button']}
                 onClick={handleMenu}
             >
-                <span>{user.username}</span>
                 <Image
                     src={user.avatar}
                     width={28}
                     height={28}
-                    style={{ borderRadius: '50%' }}
                     alt="Avatar"
                 />
             </button>

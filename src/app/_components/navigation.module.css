@@ -50,15 +50,12 @@
 .avatar-button {
     cursor: pointer;
     display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: transparent;
     border: 0px;
-    padding: 2px 4px;
-    gap: 4px;
+    padding: 0px;
     transition: 0.3s;
-    border-radius: 5px;
-    font-size: 15px;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 .avatar-button:hover {
@@ -66,13 +63,30 @@
 }
 
 .avatar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     background-color: white;
     position: absolute;
     border-radius: 5px;
-    box-shadow: 0px 2px 4px 2px rgb(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 2px 1px rgb(0, 0, 0, 0.08);
     bottom: -5px;
+    right: 0px;
     translate: 0 100%;
+    width: 220px;
     padding: 0.5rem;
+    box-sizing: border-box;
+    border: 1px solid #EAEAEA;
+}
+
+.avatar-menu-username {
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #EAEAEA;
 }
 
 .avatar-menu-button {
@@ -81,11 +95,20 @@
     display: flex;
     align-items: center;
     background-color: transparent;
-    width: 100px;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: left;
+    gap: 6px;
     box-sizing: border-box;
     padding: 4px;
     border-radius: 5px;
+    font-size: 14px;
+    height: 30px;
+    color: #101010;
+    font-weight: 500;
+}
+
+.avatar-menu-button:visited {
+    color: #101010;
 }
 
 .avatar-menu-button:hover {
